@@ -37,68 +37,132 @@ class EmployeeController extends BaseController
         return $this->render('employee', $data); // Render employee view with department data
     }
 
-    // Modify the addEmployee method to handle employee creation
-    public function addEmployee()
-{
-    session_start();
+    // Render the employee creation form
+    public function createEmployeeForm()
+    {
+        // Initialize department model to fetch department list
+        $departmentModel = new Department();
+        $departments = $departmentModel->getAll();
 
-    if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
-        echo json_encode(['success' => false, 'message' => 'Unauthorized']);
-        exit;
+        // Render the add-employee.mustache view and pass the departments data
+        return $this->render('add-employee', ['departments' => $departments]);
     }
 
-    if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['birthdate']) || empty($_POST['username']) || empty($_POST['password']) || empty($_POST['department'])) {
-        echo json_encode(['success' => false, 'message' => 'Missing required fields']);
-        exit;
-    }
-
-    // Debug: Log the data received
-    error_log("Received Data: " . json_encode($_POST));
-
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $birthdate = $_POST['birthdate'];
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $departmentId = $_POST['department'];
-
-    $employeeModel = new Employee();
-    $userModel = new User();
-
-    try {
-        // Save employee data to Employee table
+    // Process the creation of a new employee
+    public function createEmployee()
+    {
+        $employeeModel = new Employee();
+        $userModel = new User();
+        $departmentModel = new Department();
+    
+        // Retrieve POST data
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $birthdate = $_POST['birthdate'];
+        $username = $_POST['username'];
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $departmentId = $_POST['department'];
+    
+        // Get the department name for role assignment
+        $department = $departmentModel->getById($departmentId);
+        $roleId = ($department['DepartmentName'] === 'Admin') ? 1 : 2;
+    
+        // Save to Employee table
         $employeeId = $employeeModel->create([
             'Name' => $name,
             'Email' => $email,
             'Birthdate' => $birthdate,
             'HireDate' => date('Y-m-d'),
-            'DepartmentID' => $departmentId
+            'DepartmentID' => $departmentId,
         ]);
-
-        // Debug: Confirm Employee creation
-        if (!$employeeId) {
-            error_log("Failed to create Employee");
-            echo json_encode(['success' => false, 'message' => 'Failed to create Employee']);
-            exit;
-        }
-
-        // Save user data to User table
+    
+        // Save to User table
         $userModel->create([
             'Username' => $username,
             'Password' => $password,
             'EmployeeID' => $employeeId,
-            'RoleID' => 2 // Assuming non-admin role
+            'RoleID' => $roleId,
         ]);
-
-        // Debug: Confirm User creation
-        error_log("Employee and User successfully created with ID: $employeeId");
-
-        echo json_encode(['success' => true]);
-    } catch (Exception $e) {
-        error_log("Error: " . $e->getMessage());
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    
+        // Redirect to employee list page after successful creation
+        header('Location: /employee');
+        exit;
     }
+
+   // Render the employee edit form with employee data
+   public function editEmployeeForm($employeeId)
+   {
+       $employeeModel = new Employee();
+       $departmentModel = new Department();
+   
+       // Get employee details from the database using the correct method
+       $employee = $employeeModel->getEmployeeById($employeeId);
+   
+       // Get all departments for dropdown
+       $departments = $departmentModel->getAll();
+   
+       // Check if employee data was found, if not redirect with an error
+       if (!$employee) {
+           // Optionally, flash an error message or log the failed attempt
+           header('Location: /employee');
+           exit;
+       }
+   
+       // Pass employee and departments data to the view
+       return $this->render('edit-employee', [
+           'employee' => $employee,
+           'departments' => $departments
+       ]);
+   }
+   
+
+   // Update employee data
+   public function updateEmployee($employeeId)
+{
+    $employeeModel = new Employee();
+    $departmentModel = new Department();
+
+    // Retrieve POST data
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $birthdate = $_POST['birthdate'];
+    $departmentId = $_POST['department'];
+
+    // Create an array with updated employee data
+    $data = [
+        'Name' => $name,
+        'Email' => $email,
+        'Birthdate' => $birthdate,
+        'DepartmentID' => $departmentId
+    ];
+
+    // Call the model's updateEmployee method to update the database
+    $employeeModel->updateEmployee($employeeId, $data);
+
+    // Optionally, update user data here (e.g., username, password) if necessary.
+
+    // Redirect to the employee list page after successful update
+    header('Location: /employee');
+    exit;
 }
 
-    
+
+    // Delete employee
+    public function deleteEmployee($employeeId)
+    {
+        $employeeModel = new Employee();
+        $userModel = new User();
+
+        // Delete user associated with the employee (if any)
+        $userModel->deleteByEmployeeId($employeeId);
+
+        // Delete the employee record
+        $employeeModel->delete($employeeId);
+
+        // Redirect back to employee list
+        header('Location: /employee');
+        exit;
+    }
+
+
 }

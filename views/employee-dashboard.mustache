@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     <style>
         body {
-            background: #ffffff; /* Gradient background: navbar dark, fading to lighter */
+            background: #ffffff; /* White background */
             display: flex;
             flex-direction: column;
-            color: #0A1128; /* Light text color */
+            color: #009688; /* Text color set to #009688 */
         }
         .container {
             margin-top: 30px;
@@ -30,7 +30,7 @@
         footer {
             text-align: center;
             margin-top: 100px;
-            color: #0A1128;
+            color: #009688;
         }
         .logout-btn {
             background-color: #dc3545;
@@ -49,69 +49,69 @@
         }
         /* Styling for the modal text */
         .modal-header, .modal-body, .modal-footer {
-            color: #343a40;
+            color: #009688;
         }
         .modal-content {
-            background-color: #f8f9fa;
+            background-color: #ffffff;
         }
 
         /* Navbar Styling */
         .navbar {
-            background-color: #0A1128;
+            background-color: #009688; /* Navbar background color */
             color: white;
         }
 
         .navbar-brand {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #ADD8E6;
+            color: white;
         }
 
         .navbar-brand:hover {
-            color: #ADD8E6;
+            color: white;
         }
 
         .navbar-nav .nav-link {
-            color: #ffffff;
+            color: white;
             font-weight: bold;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #ADD8E6;
+            color: #1a604f;
         }
 
         /* Dropdown Styling */
         .dropdown-menu {
-            background-color: #0A1128;
-            color: #ffffff;
+            background-color: #009688; /* Navbar dropdown background */
+            color: white;
         }
 
         .dropdown-menu .dropdown-item {
-            color: #ffffff;
+            color: white;
         }
 
         .dropdown-menu .dropdown-item:hover {
-            background-color: #1d2d3b;
+            background-color: #006e59;
         }
 
         /* Light Table Styling */
         .table {
-            background-color: #D9D9D9; /* Light background for the table */
+            background-color: #ffffff; /* White table background */
             border-radius: 8px;
         }
 
         .table th {
-            background-color: #007bff; /* Blue header */
+            background-color: #009688; /* Table header background */
             color: white;
         }
 
         .table td {
-            background-color: #f8f9fa; /* Light grey for cells */
-            color: #343a40; /* Dark text for better readability */
+            background-color: #ffffff; /* White table cell background */
+            color: #009688; /* Dark text for readability */
         }
 
         .table-striped tbody tr:nth-child(odd) {
-            background-color: #e9ecef; /* Lighter row stripe */
+            background-color: #f1f1f1; /* Lighter row stripe */
         }
 
         .pagination {
@@ -152,11 +152,11 @@
             <h1 class="text-center">Welcome to TimeSync, {{username}}</h1>
         </header>
 
-        <!-- Employee Dashboard Content -->
+        
         <section class="dashboard">
             <h2 class="text-center">Your Attendance</h2>
 
-            <!-- Clock In/Out Buttons -->
+           
             <div class="clock-buttons text-center mb-4">
                 <form action="/employee-dashboard/clockIn" method="POST" class="d-inline">
                     <button type="submit" class="btn btn-success">Clock In</button>
@@ -166,11 +166,11 @@
                 </form>
             </div>
 
-            <!-- Attendance Table with DataTable -->
+            
             <div class="attendance-info">
                 <h3 class="text-center">Attendance Records</h3>
 
-                <!-- DataTable -->
+                
                 <table id="attendanceTable" class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>

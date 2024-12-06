@@ -23,6 +23,8 @@ try {
 
     // Define the route for the dashboard page
     $router->get('/admin-dashboard', '\App\Controllers\DashboardController@index');
+    $router->get('/chart-data', '\App\Controllers\ChartDataController@getChartData');
+
 
     $router->get('/employee-dashboard', '\App\Controllers\EmployeeDashboardController@index');
     $router->post('/employee-dashboard/clockIn', '\App\Controllers\EmployeeDashboardController@clockInAction');
@@ -34,8 +36,24 @@ try {
     // Route to display employee list or dashboard
     $router->get('/employee', '\App\Controllers\EmployeeController@index');
 
-    // Route to process adding a new employee
-    $router->post('/employee', '\App\Controllers\EmployeeDashboardController@addEmployee');
+    // Route to render the employee creation form (GET request)
+    $router->get('/add-employee', '\App\Controllers\EmployeeController@createEmployeeForm');
+
+    // Route to process adding a new employee (POST request)
+    $router->post('/add-employee', '\App\Controllers\EmployeeController@createEmployee');
+
+    $router->get('/edit-employee/{employeeId}', 'EmployeeController@editEmployeeForm');
+    $router->post('/update-employee/{employeeId}', 'EmployeeController@updateEmployee');
+
+
+// Route to handle employee deletion with employee ID in the URL
+$router->post('/delete-employee/(\d+)', '\App\Controllers\EmployeeController@deleteEmployee');
+
+
+
+
+
+
 
     // Display the Admin Dashboard (List of Admin employees)
     $router->get('/admin', '\App\Controllers\AdminController@index');

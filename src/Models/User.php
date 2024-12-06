@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use \PDO;
+
 
 class User extends BaseModel
 {
@@ -18,6 +20,7 @@ class User extends BaseModel
         'RoleID' => $data['RoleID']
     ]);
 }
+
 
 public function login($username, $password)
 {
@@ -36,6 +39,20 @@ public function login($username, $password)
     return false; // Login failed
 }
 
+public function getRoleCounts()
+{
+    $query = "
+        SELECT 
+            COUNT(*) AS TotalEmployees,
+            SUM(CASE WHEN r.Role = 'Admin' THEN 1 ELSE 0 END) AS Admins,
+            SUM(CASE WHEN r.Role = 'Employee' THEN 1 ELSE 0 END) AS Employees
+        FROM User u
+        JOIN User_Role r ON u.RoleID = r.ID;
+    ";
+
+    $stmt = $this->db->query($query);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
     // Count admin users
     public function countAdmins()

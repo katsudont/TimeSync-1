@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Models;
+use App\Models\BaseModel;
+use \PDO;
+
 
 class Employee extends BaseModel
 {
@@ -81,5 +84,32 @@ public function countAll()
     $stmt->execute(['EmployeeID' => $employeeId]);
     return $stmt->fetch(); // Fetch a single row
 }
+
+public function updateEmployee($employeeId, $data)
+{
+    // Prepare the SQL statement to update the employee record
+    $query = "
+        UPDATE Employee
+        SET 
+            Name = :Name,
+            Email = :Email,
+            Birthdate = :Birthdate,
+            DepartmentID = :DepartmentID
+        WHERE ID = :EmployeeID
+    ";
+
+    // Prepare the statement
+    $stmt = $this->db->prepare($query);
+
+    // Execute the statement with the provided data
+    $stmt->execute([
+        'Name' => $data['Name'],
+        'Email' => $data['Email'],
+        'Birthdate' => $data['Birthdate'],
+        'DepartmentID' => $data['DepartmentID'],
+        'EmployeeID' => $employeeId
+    ]);
+}
+
 
 }
