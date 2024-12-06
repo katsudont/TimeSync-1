@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - TimeSync</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            background: #ffffff; /* Gradient background: navbar dark, fading to lighter */
+            display: flex;
+            flex-direction: column;
+            color: #0A1128; /* Light text color */
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .dashboard {
+            margin-top: 30px;
+        }
+        .dashboard-stats {
+            margin-top: 20px;
+        }
+        .clock-buttons .btn {
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 100px;
+            color: #0A1128;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .logout-btn:hover {
+            background-color: #f44336;
+            color: white;
+        }
+        /* Styling for the modal text */
+        .modal-header, .modal-body, .modal-footer {
+            color: #343a40;
+        }
+        .modal-content {
+            background-color: #f8f9fa;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #0A1128;
+            color: white;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ADD8E6;
+        }
+
+        .navbar-brand:hover {
+            color: #ADD8E6;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ADD8E6;
+        }
+
+        /* Dropdown Styling */
+        .dropdown-menu {
+            background-color: #0A1128;
+            color: #ffffff;
+        }
+
+        .dropdown-menu .dropdown-item {
+            color: #ffffff;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #1d2d3b;
+        }
+
+        /* Light Table Styling */
+        .table {
+            background-color: #D9D9D9; /* Light background for the table */
+            border-radius: 8px;
+        }
+
+        .table th {
+            background-color: #007bff; /* Blue header */
+            color: white;
+        }
+
+        .table td {
+            background-color: #f8f9fa; /* Light grey for cells */
+            color: #343a40; /* Dark text for better readability */
+        }
+
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #e9ecef; /* Lighter row stripe */
+        }
+
+        .pagination {
+            justify-content: center;
+        }
+
+        .search-input {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">TimeSync</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Account
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1 class="text-center">Welcome to TimeSync, {{username}}</h1>
+        </header>
+
+        <!-- Employee Dashboard Content -->
+        <section class="dashboard">
+            <h2 class="text-center">Your Attendance</h2>
+
+            <!-- Clock In/Out Buttons -->
+            <div class="clock-buttons text-center mb-4">
+                <form action="/employee-dashboard/clockIn" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-success">Clock In</button>
+                </form>
+                <form action="/employee-dashboard/clockOut" method="POST" class="d-inline ml-3">
+                    <button type="submit" class="btn btn-danger">Clock Out</button>
+                </form>
+            </div>
+
+            <!-- Attendance Table with DataTable -->
+            <div class="attendance-info">
+                <h3 class="text-center">Attendance Records</h3>
+
+                <!-- DataTable -->
+                <table id="attendanceTable" class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Shift ID</th>
+                            <th scope="col">In Time</th>
+                            <th scope="col">In Status</th>
+                            <th scope="col">Out Time</th>
+                            <th scope="col">Out Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#attendanceRecords}}
+                        <tr>
+                            <td>{{shiftID}}</td>
+                            <td>{{InTime}}</td>
+                            <td>{{InStatus}}</td>
+                            <td>{{OutTime}}</td>
+                            <td>{{OutStatus}}</td>
+                        </tr>
+                        {{/attendanceRecords}}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 TimeSync</p>
+    </footer>
+
+    <!-- Bootstrap and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+    <!-- Initialize DataTable -->
+    <script>
+        $(document).ready(function() {
+            $('#attendanceTable').DataTable({
+                "paging": true,       // Enable pagination
+                "searching": true,    // Enable search
+                "ordering": true,     // Enable sorting
+                "lengthChange": false // Disable length change (number of rows per page)
+            });
+        });
+    </script>
+
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Are you sure you want to log out?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    You will be logged out from the system.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/login" class="btn btn-danger">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
