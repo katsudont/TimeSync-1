@@ -66,22 +66,59 @@ class DepartmentController extends BaseController
     ]);
 }
 
-    
+public function createDepartmentForm()
+{
+    // Initialize department and shift models to fetch department list and available shifts
+    $departmentModel = new Department();
+    $shiftModel = new Shift();
+
+    // Fetch all available shifts
+    $shifts = $shiftModel->getAllShifts();
+
+    // Render the add-department.mustache view and pass the shifts data
+    return $this->render('add-department', ['shifts' => $shifts]);
+}
+
+
     public function addDepartment()
-    {
-        // Method to handle adding new departments
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $departmentName = $_POST['departmentName'];
+{
+    // Method to handle adding new departments and assigning a shift
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $departmentName = $_POST['departmentName'];
+        $shiftId = $_POST['shiftId']; // Get the selected shift ID from the form
 
-            $departmentModel = new Department();
-            $departmentModel->create([
-                'DepartmentName' => $departmentName
-            ]);
+        // Create the department
+        $departmentModel = new Department();
+        $departmentId = $departmentModel->create([
+            'DepartmentName' => $departmentName
+        ]);
 
-            header('Location: /department'); // Redirect back to the departments page after adding
+        if ($departmentId) {
+            // If department creation was successful, assign the shift (if provided)
+            if (!empty($shiftId)) {
+                $shiftModel = new Shift();
+                $success = $shiftModel->assignShiftToDepartment($shiftId, $departmentId);
+                
+                if (!$success) {
+                    echo "Error occurred while assigning the shift.";
+                    return;
+                }
+            }
+            
+            // Redirect to the departments list after successful creation and shift assignment
+            header('Location: /department');
+            exit();
+        } else {
+            echo "An error occurred while creating the department.";
         }
-
-        // Render the add department form
-        $this->render('addDepartment');
     }
+
+    // Render the add department form with the available shifts
+    $shiftModel = new Shift();
+    $allShifts = $shiftModel->getAllShifts(); // Fetch all available shifts
+    $this->render('addDepartment', [
+        'shifts' => $allShifts // Pass available shifts to the view
+    ]);
+}
+
 }

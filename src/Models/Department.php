@@ -44,6 +44,7 @@ class Department extends BaseModel
      return $this->db->lastInsertId(); // Returns the ID of the newly inserted department
  }
 
- 
+
+
 
 }

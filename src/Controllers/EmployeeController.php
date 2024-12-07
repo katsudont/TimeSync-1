@@ -91,29 +91,35 @@ class EmployeeController extends BaseController
 
    // Render the employee edit form with employee data
    public function editEmployeeForm($employeeId)
-   {
-       $employeeModel = new Employee();
-       $departmentModel = new Department();
-   
-       // Get employee details from the database using the correct method
-       $employee = $employeeModel->getEmployeeById($employeeId);
-   
-       // Get all departments for dropdown
-       $departments = $departmentModel->getAll();
-   
-       // Check if employee data was found, if not redirect with an error
-       if (!$employee) {
-           // Optionally, flash an error message or log the failed attempt
-           header('Location: /employee');
-           exit;
-       }
-   
-       // Pass employee and departments data to the view
-       return $this->render('edit-employee', [
-           'employee' => $employee,
-           'departments' => $departments
-       ]);
-   }
+{
+    $employeeModel = new Employee();
+    $departmentModel = new Department();
+
+    // Get employee details from the database using the correct method
+    $employee = $employeeModel->getEmployeeById($employeeId);
+
+    // Get all departments for dropdown
+    $departments = $departmentModel->getAll();
+
+    // Check if employee data was found, if not redirect with an error
+    if (!$employee) {
+        // Optionally, flash an error message or log the failed attempt
+        header('Location: /employee');
+        exit;
+    }
+
+    // Add a 'selected' flag to each department based on the employee's current department
+    foreach ($departments as &$department) {
+        $department['selected'] = ($department['ID'] == $employee['DepartmentID']) ? 'selected' : '';
+    }
+
+    // Pass employee and departments data to the view
+    return $this->render('edit-employee', [
+        'employee' => $employee,
+        'departments' => $departments
+    ]);
+}
+
    
 
    // Update employee data
@@ -145,24 +151,45 @@ class EmployeeController extends BaseController
     header('Location: /employee');
     exit;
 }
-
-
     // Delete employee
-    public function deleteEmployee($employeeId)
-    {
-        $employeeModel = new Employee();
-        $userModel = new User();
+// Delete employee
+public function deleteEmployee($ID)
+{
+    $employeeModel = new Employee();  
+    $userModel = new User();  
 
-        // Delete user associated with the employee (if any)
-        $userModel->deleteByEmployeeId($employeeId);
+    // Get the employee data using the Employee model
+    $employee = $employeeModel->getById($ID);
 
-        // Delete the employee record
-        $employeeModel->delete($employeeId);
-
-        // Redirect back to employee list
+    if (!$employee) {
+        // Handle case when employee is not found
         header('Location: /employee');
         exit;
     }
+
+    // Get the user associated with this employee
+    $user = $userModel->getByEmployeeId($ID);
+    
+    if ($user) {
+        // Delete the associated user
+        if (!$userModel->delete($user['ID'])) {
+            // Handle deletion error if needed
+            header('Location: /employee');
+            exit;
+        }
+    }
+
+    // Finally, delete the employee
+    if ($employeeModel->delete($ID)) {
+        // Redirect with success message if deletion is successful
+        header('Location: /employee');
+        exit;
+    } else {
+        // Handle failure to delete employee
+        header('Location: /employee');
+        exit;
+    }
+}
 
 
 }

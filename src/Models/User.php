@@ -108,5 +108,28 @@ public function getRoleCounts()
     return false;
 }
 
+// Custom method to get a user by employee ID
+public function getByEmployeeId($employeeId)
+    {
+        $stmt = $this->db->prepare("
+            SELECT * FROM User WHERE EmployeeID = :employeeId
+        ");
+        $stmt->bindParam(':employeeId', $employeeId, \PDO::PARAM_INT);
+        $stmt->execute();
 
+        return $stmt->fetch(\PDO::FETCH_ASSOC); // Return user data as associative array
+    }
+
+    // Delete user by employee ID
+    public function delete($employeeId)
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM User WHERE EmployeeID = :employeeId");
+            $stmt->bindParam(':employeeId', $employeeId, \PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Delete failed: " . $e->getMessage());
+            return false;
+        }
+    }
 }

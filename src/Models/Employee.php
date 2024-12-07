@@ -31,24 +31,23 @@ public function countAll()
  // Get employee details with department name
  public function getEmployeeData()
  {
+     // Updated query to include Username and HireDate, and exclude employees in the "Admin" department
      $query = "
-         SELECT 
-             e.ID as EmployeeID, 
-             e.Name, 
-             e.Email, 
-             u.Username, 
-             e.Birthdate, 
-             e.HireDate, 
-             d.DepartmentName, 
-             e.DepartmentID
+         SELECT e.ID, e.Name, e.Email, e.Birthdate, e.HireDate, u.Username, e.DepartmentID, d.DepartmentName
          FROM Employee e
          JOIN Department d ON e.DepartmentID = d.ID
-         JOIN User u ON u.EmployeeID = e.ID
+         LEFT JOIN User u ON e.ID = u.EmployeeID
+         WHERE d.DepartmentName <> 'Admin'
      ";
-
-     $stmt = $this->db->query($query);
-     return $stmt->fetchAll();
+ 
+     // Prepare and execute the statement
+     $stmt = $this->db->prepare($query);
+     $stmt->execute();
+     
+     // Return the results
+     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
  }
+ 
 
  // Get employees by department
  public function getEmployeesByDepartment($departmentId)
@@ -62,28 +61,21 @@ public function countAll()
      return $stmt->fetchAll();
  }
 
- public function getEmployeeById($employeeId)
+ // Assuming you have the method getEmployeeById
+public function getEmployeeById($id)
 {
     $query = "
-        SELECT 
-            e.ID as EmployeeID, 
-            e.Name, 
-            e.Email, 
-            u.Username, 
-            e.Birthdate, 
-            e.HireDate, 
-            d.DepartmentName, 
-            e.DepartmentID
+        SELECT e.ID, e.Name, e.Email, e.Birthdate, e.DepartmentID, d.DepartmentName
         FROM Employee e
         JOIN Department d ON e.DepartmentID = d.ID
-        JOIN User u ON u.EmployeeID = e.ID
-        WHERE e.ID = :EmployeeID
+        WHERE e.ID = :id AND d.DepartmentName <> 'Admin'
     ";
 
     $stmt = $this->db->prepare($query);
-    $stmt->execute(['EmployeeID' => $employeeId]);
-    return $stmt->fetch(); // Fetch a single row
+    $stmt->execute(['id' => $id]);
+    return $stmt->fetch(\PDO::FETCH_ASSOC);  // Return employee data, ensuring not from "Admin" department
 }
+
 
 public function updateEmployee($employeeId, $data)
 {
@@ -111,5 +103,28 @@ public function updateEmployee($employeeId, $data)
     ]);
 }
 
+public function getById($id)
+    {
+        $stmt = $this->db->prepare("
+            SELECT * FROM Employee WHERE ID = :id
+        ");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(\PDO::FETCH_ASSOC); // Return employee data as associative array
+    }
+
+    // Delete an employee by ID
+    public function delete($id)
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM Employee WHERE ID = :id");
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Delete failed: " . $e->getMessage());
+            return false;
+        }
+    }
 
 }

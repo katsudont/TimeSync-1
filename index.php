@@ -35,40 +35,28 @@ try {
 
     // Route to display employee list or dashboard
     $router->get('/employee', '\App\Controllers\EmployeeController@index');
-
     // Route to render the employee creation form (GET request)
     $router->get('/add-employee', '\App\Controllers\EmployeeController@createEmployeeForm');
-
     // Route to process adding a new employee (POST request)
     $router->post('/add-employee', '\App\Controllers\EmployeeController@createEmployee');
 
-    $router->get('/edit-employee/{employeeId}', 'EmployeeController@editEmployeeForm');
+    $router->get('/edit-employee/{employeeId}', '\App\Controllers\EmployeeController@editEmployeeForm');
     $router->post('/update-employee/{employeeId}', 'EmployeeController@updateEmployee');
-
-
-// Route to handle employee deletion with employee ID in the URL
-$router->post('/delete-employee/(\d+)', '\App\Controllers\EmployeeController@deleteEmployee');
-
-
-
-
-
+    $router->post('/delete-employee/(\d+)', '\App\Controllers\EmployeeController@deleteEmployee');
 
 
     // Display the Admin Dashboard (List of Admin employees)
     $router->get('/admin', '\App\Controllers\AdminController@index');
+    $router->get('/add-admin', '\App\Controllers\AdminController@createAdminForm');
+    $router->post('/add-admin', '\App\Controllers\AdminController@createAdmin');
 
-    // Display the form to add a new Admin
-    $router->get('/admin/add', '\App\Controllers\AdminController@addAdmin'); // This is the route for `addAdmin.mustache`
 
-    // Store the new Admin data
-    $router->post('/admin/store', '\App\Controllers\AdminController@storeAdmin');
 
     // Route to display departments
     $router->get('/department', '\App\Controllers\DepartmentController@index');
 
     // Route to show add department form
-    $router->get('/add-department', '\App\Controllers\DepartmentController@addDepartment');
+    $router->get('/add-department', '\App\Controllers\DepartmentController@createDepartmentForm');
 
     // Route to handle form submission (POST)
     $router->post('/add-department', '\App\Controllers\DepartmentController@addDepartment');

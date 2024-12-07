@@ -28,50 +28,63 @@ class AdminController extends BaseController
         $this->render('admin', ['employees' => $employees]);
     }
 
-    public function addAdmin()
+    public function createAdminForm()
     {
-        // Fetch all departments to populate the department dropdown (if needed in the future)
+        // Initialize department model to fetch department list
         $departmentModel = new Department();
         $departments = $departmentModel->getAll();
 
-        // Render the addAdmin view, passing the departments to populate dropdown if needed
-        $this->render('addAdmin', ['departments' => $departments]);
+        // Render the add-employee.mustache view and pass the departments data
+        return $this->render('add-admin', ['departments' => $departments]);
     }
 
-    public function storeAdmin()
-    {
-        $employeeModel = new Employee();
-        $userModel = new User();
-        $departmentModel = new Department();
+    // Process the creation of a new employee
+    public function createAdmin()
+{
+    $employeeModel = new Employee();
+    $userModel = new User();
+    $departmentModel = new Department();
     
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $birthdate = $_POST['birthdate'];
-        $username = $_POST['username'];
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        $departmentId = $_POST['department'];
+    // Retrieve POST data
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $birthdate = $_POST['birthdate'];
+    $username = $_POST['username'];
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $departmentName = $_POST['department']; // 'Admin' value from the form
     
-        // Get the department name for role assignment (ensuring it's Admin)
-        $department = $departmentModel->getById($departmentId);
-        $roleId = ($department['DepartmentName'] === 'Admin') ? 1 : 2;
-    
-        // Save to Employee table
-        $employeeId = $employeeModel->create([
-            'Name' => $name,
-            'Email' => $email,
-            'Birthdate' => $birthdate,
-            'HireDate' => date('Y-m-d'),
-            'DepartmentID' => $departmentId,
-        ]);
-    
-        // Save to User table
-        $userModel->create([
-            'Username' => $username,
-            'Password' => $password,
-            'EmployeeID' => $employeeId,
-            'RoleID' => $roleId,
-        ]);
-    
-        header('Location: /admin'); // Redirect after successful admin creation
+    // Check if department exists and get the department ID
+    $department = $departmentModel->getByName($departmentName);  // Assuming you have a method to get by name
+    if (!$department) {
+        // Handle error if the department doesn't exist
+        die("Error: Department 'Admin' does not exist in the database.");
     }
+    
+    $departmentId = $department['ID'];  // Get the department ID, not the name
+    
+    // Get the role ID based on department name (Admin => RoleID 1)
+    $roleId = ($departmentName === 'Admin') ? 1 : 2;
+    
+    // Save to Employee table
+    $employeeId = $employeeModel->create([
+        'Name' => $name,
+        'Email' => $email,
+        'Birthdate' => $birthdate,
+        'HireDate' => date('Y-m-d'),
+        'DepartmentID' => $departmentId,  // Save correct DepartmentID
+    ]);
+    
+    // Save to User table
+    $userModel->create([
+        'Username' => $username,
+        'Password' => $password,
+        'EmployeeID' => $employeeId,
+        'RoleID' => $roleId,
+    ]);
+    
+    // Redirect to employee list page after successful creation
+    header('Location: /admin');
+    exit;
+}
+
 }

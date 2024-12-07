@@ -47,7 +47,7 @@
 
 						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
-								<li class="active"><a href="/employee">Employees List </a></li>
+								<li><a href="/employee"  class="active">Employees List </a></li>
 								<li><a href="/admin">Admins List </a></li>
 							</ul>
 						</li>
@@ -91,7 +91,7 @@
 										<tbody>
 											{{#employees}}
 											<tr>
-												<td class="text-nowrap">{{EmployeeID}}</td>
+												<td class="text-nowrap">{{ID}}</td>
 												<td class="text-nowrap">{{Name}}</td>
 												<td class="text-nowrap">{{Email}}</td>
 												<td class="text-nowrap">{{Username}}</td>
@@ -101,7 +101,7 @@
 												<!-- Added Actions dropdown -->
 												<td class="text-center">
 													<!-- Link for editing employee, dynamically passing EmployeeID -->
-													<a href="/edit-employee/{{EmployeeID}}" class="action-icon">
+													<a href="/edit-employee/{{ID}}" class="action-icon">
 													  <i class="fas fa-pencil-alt m-r-5"></i> Edit
 													</a>
 												</td>
