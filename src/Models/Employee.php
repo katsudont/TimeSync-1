@@ -64,17 +64,25 @@ public function countAll()
  // Assuming you have the method getEmployeeById
 public function getEmployeeById($id)
 {
+    // Updated query to also select HireDate and Username
     $query = "
-        SELECT e.ID, e.Name, e.Email, e.Birthdate, e.DepartmentID, d.DepartmentName
+        SELECT e.ID, e.Name, e.Email, e.Birthdate, e.HireDate, u.Username, e.DepartmentID, d.DepartmentName
         FROM Employee e
         JOIN Department d ON e.DepartmentID = d.ID
+        LEFT JOIN User u ON e.ID = u.EmployeeID  -- Left Join to get Username
         WHERE e.ID = :id AND d.DepartmentName <> 'Admin'
     ";
 
+    // Prepare the SQL statement
     $stmt = $this->db->prepare($query);
+
+    // Execute the query with the employee ID
     $stmt->execute(['id' => $id]);
-    return $stmt->fetch(\PDO::FETCH_ASSOC);  // Return employee data, ensuring not from "Admin" department
+
+    // Fetch the result as an associative array
+    return $stmt->fetch(\PDO::FETCH_ASSOC);  // Return employee data with HireDate and Username
 }
+
 
 
 public function updateEmployee($employeeId, $data)
@@ -104,27 +112,48 @@ public function updateEmployee($employeeId, $data)
 }
 
 public function getById($id)
-    {
-        $stmt = $this->db->prepare("
-            SELECT * FROM Employee WHERE ID = :id
-        ");
-        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
-        $stmt->execute();
+{
+    $stmt = $this->db->prepare("
+        SELECT e.*, u.Username
+        FROM Employee e
+        LEFT JOIN User u ON e.ID = u.EmployeeID
+        WHERE e.ID = :id
+    ");
+    $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+    $stmt->execute();
 
-        return $stmt->fetch(\PDO::FETCH_ASSOC); // Return employee data as associative array
-    }
+    return $stmt->fetch(\PDO::FETCH_ASSOC); // Return employee and user data as associative array
+}
+
 
     // Delete an employee by ID
     public function delete($id)
-    {
-        try {
-            $stmt = $this->db->prepare("DELETE FROM Employee WHERE ID = :id");
-            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (\PDOException $e) {
-            error_log("Delete failed: " . $e->getMessage());
-            return false;
-        }
+{
+    try {
+        // Begin transaction
+        $this->db->beginTransaction();
+
+        // Delete associated user
+        $stmtUser = $this->db->prepare("DELETE FROM User WHERE EmployeeID = :id");
+        $stmtUser->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmtUser->execute();
+
+        // Delete employee
+        $stmtEmployee = $this->db->prepare("DELETE FROM Employee WHERE ID = :id");
+        $stmtEmployee->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmtEmployee->execute();
+
+        // Commit transaction
+        $this->db->commit();
+
+        return true;
+    } catch (\PDOException $e) {
+        // Rollback transaction on failure
+        $this->db->rollBack();
+        error_log("Delete failed: " . $e->getMessage());
+        return false;
     }
+}
+
 
 }

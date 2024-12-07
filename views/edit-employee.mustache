@@ -5,131 +5,131 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 	<title>TimeSync</title>
-	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-	<link rel="stylesheet" href="assets/css/feathericon.min.css">
-	<link rel="stylesheet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
-	<link rel="stylesheet" href="assets/plugins/morris/morris.css">
-	<link rel="stylesheet" href="assets/css/style.css">
-</head>
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+	<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="/assets/css/feathericon.min.css">
+	<link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
+	<link rel="stylesheet" href="/assets/plugins/morris/morris.css">
+	<link rel="stylesheet" href="/assets/css/style.css"> </head>
 
 <body>
 	<div class="main-wrapper">
-        <!-- Header Section -->
-        <div class="header">
-            <div class="header-left">
-                <a href="/admin-dashboard" class="logo">
-                    <img src="assets/img/hotel_logo.png" width="50" height="70" alt="logo">
-                    <span class="logoclass">TimeSync</span>
-                </a>
-            </div>
-            <a href="javascript:void(0);" id="toggle_btn"><i class="fe fe-text-align-left"></i></a>
-            <a class="mobile_btn" id="mobile_btn"><i class="fas fa-bars"></i></a>
-            
-            <ul class="nav user-menu">
-                <li class="nav-item dropdown has-arrow">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="31" alt="Soeng Souy"></span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <div class="user-header">
-                            <div class="user-text">
-                                <h6>Soeng Souy</h6>
-                                <p class="text-muted mb-0">Administrator</p>
-                            </div>
-                        </div>
-                        <a class="dropdown-item" href="profile.html">My Profile</a>
-                        <a class="dropdown-item" href="settings.html">Account Settings</a>
-                        <a class="dropdown-item" href="login.html">Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
+		<div class="header">
+			<div class="header-left">
+				<a href="/admin-dashboard" class="logo"> <img src="/assets/img/logo.png" width="50" height="70" alt="logo"> <span class="logoclass">TimeSync</span> </a>
+			</div>
+			<a href="javascript:void(0);" id="toggle_btn"> <i class="fe fe-text-align-left"></i> </a>
+			<a class="mobile_btn" id="mobile_btn"> <i class="fas fa-bars"></i> </a>
 
-        <!-- Sidebar Section -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li><a href="/admin-dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
-                        <li class="list-divider"></li>
-                        <li class="submenu">
-                            <a href="#"><i class="fas fa-user"></i> <span>Employees</span> <span class="menu-arrow"></span></a>
-                            <ul class="submenu_class" style="display: none;">
-                                <li><a class="active" href="/employee">Employees List</a></li>
-                                <li><a href="/admin">Admins List</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/department"><i class="fas fa-building"></i> <span>Departments</span></a></li>
-                        <li><a href="/shift"><i class="fas fa-keyboard"></i> <span>Shift</span></a></li>
-                        <li><a href="/attendance"><i class="fas fa-clock"></i> <span>Attendance</span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+			<ul class="nav user-menu">
+				<li class="nav-item dropdown has-arrow">
+					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> </a>
+					<div class="dropdown-menu">
+						<div class="user-header">
+							<div class="user-text">
+								<h6>{{username}}</h6>
+								<p class="text-muted mb-0">Administrator</p>
+							</div>
+						</div> <a class="dropdown-item" href="profile.html">My Profile</a> <a class="dropdown-item" href="settings.html">Account Settings</a> <a class="dropdown-item" href="login.html">Logout</a> </div>
+				</li>
+			</ul>
+		</div>
+		<div class="sidebar" id="sidebar">
+			<div class="sidebar-inner slimscroll">
+				<div id="sidebar-menu" class="sidebar-menu">
+					<ul>
+						<li> <a href="/admin-dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a> </li>
 
+						<li class="list-divider"></li>
+
+						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
+							<ul class="submenu_class" style="display: none;">
+								<li><a href="/employee"  class="active">Employees List </a></li>
+								<li><a href="/admin">Admins List </a></li>
+							</ul>
+						</li>
+						<li> <a href="/department"><i class="fas fa-building"></i> <span>Departments</span></a> </li>
+						<li> <a href="/shift"><i class="fas fa-keyboard"></i> <span>Shift</span></a> </li>
+						<li> <a href="/attendance"><i class="fas fa-clock"></i> <span>Attendance</span></a> </li>
+
+					</ul>
+				</div>
+			</div>
+		</div>
         <!-- Page Wrapper -->
         <div class="page-wrapper">
             <div class="content container-fluid">
                 <div class="page-header">
                     <div class="row align-items-center">
                         <div class="col">
-                            <h3 class="page-title mt-5">Edit Employee</h3>
+                            <h3 class="page-title mt-5">Edit Employee Data</h3>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Employee Edit Form -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <form>
+                        <form method="POST" action="/edit-employee/{{employee.ID}}">
                             <div class="row formtype">
-                                <!-- Name -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Name</label>
-                                        <input class="form-control" type="text" value="{{employee.Name}}">
-                                    </div>
-                                </div>
 
-                                <!-- Username -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>User Name</label>
-                                        <input class="form-control" type="text" value="{{employee.Username}}">
-                                    </div>
-                                </div>
-
-                                <!-- Email -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Email ID</label>
-                                        <input class="form-control" type="text" value="{{employee.Email}}">
-                                    </div>
-                                </div>
-
-                                <!-- Employee ID -->
-                                <div class="col-md-4">
+                                 <!-- Employee ID -->
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Employee ID</label>
-                                        <input class="form-control" type="text" value="{{employee.EmployeeID}}">
+                                        <input class="form-control" type="text" name="EmployeeID" value="{{employee.ID}}" readonly>
                                     </div>
                                 </div>
 
-                                <!-- Joining Date -->
-                                <div class="col-md-4">
+                                <!-- Name -->
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Joining Date</label>
+                                        <label>Name</label>
+                                        <input class="form-control" type="text" name="Name" value="{{employee.Name}}">
+                                    </div>
+                                </div>
+                        
+                                <!-- Username -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>User Name</label>
+                                        <input class="form-control" type="text" name="Username" value="{{employee.Username}}">
+                                    </div>
+                                </div>
+                        
+                                <!-- Email -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email ID</label>
+                                        <input class="form-control" type="text" name="Email" value="{{employee.Email}}">
+                                    </div>
+                                </div>
+                        
+                        
+                                <!-- Birthdate -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Birthdate</label>
                                         <div class="cal-icon">
-                                            <input type="text" class="form-control datetimepicker" value="{{employee.HireDate}}">
+                                            <input type="text" class="form-control" name="Birthdate" value="{{employee.Birthdate}}">
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- Joining Date -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Hire Date</label>
+                                        <div class="cal-icon">
+                                            <input type="text" class="form-control" name="HireDate" value="{{employee.HireDate}}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                        
                                 <!-- Department -->
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="department">Department</label>
                                         <select class="form-control" id="department" name="department" required>
@@ -140,38 +140,72 @@
                                     </div>
                                 </div>
                             </div>
+                        
+                            <div class="form-buttons row">
+                                <!-- Save Button -->
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary w-50">Save</button>
+                                    <button type="button" class="btn btn-danger w-50" data-toggle="modal" data-target="#deleteModal">
+                                        Delete Employee
+                                    </button>
+                                </div>
+
+                                
+                        
+                            </div>
+                            
                         </form>
 
-                        <!-- Delete Button Form -->
-                        <form method="POST" action="/delete-employee/{{ID}}" class="mt-3">
-                            <button type="submit" class="btn btn-danger">Delete Employee</button>
-                        </form>
+                        
                     </div>
                 </div>
-
-                <!-- Save Button -->
-                <button type="button" class="btn btn-primary buttonedit">Save</button>
             </div>
+            
         </div>
     </div>
 
+                    <!-- Modal for Deleting Employee -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Delete Employee</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete this employee?
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Cancel Button -->
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 
-	<script src="assets/js/jquery-3.5.1.min.js"></script>
-	<script src="assets/js/popper.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
-	<script src="assets/js/moment.min.js"></script>
-	<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
-	<script src="assets/js/script.js"></script>
+                                <!-- Confirm Delete Button -->
+                                <form method="POST" action="/delete-employee/{{employee.ID}}">
+                                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-	<script>
-		$(document).ready(function() {
-			// Bind the "Create Employee" button to submit the form
-			$('#createAdminButton').click(function() {
-				$('#createAdminForm').submit();
-			});
-		});
-	</script>
+
+        <script src="/assets/js/jquery-3.5.1.min.js"></script>
+        <script src="/assets/js/popper.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/js/moment.min.js"></script>
+        <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="/assets/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="/assets/js/script.js"></script>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

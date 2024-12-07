@@ -41,8 +41,10 @@ try {
     $router->post('/add-employee', '\App\Controllers\EmployeeController@createEmployee');
 
     $router->get('/edit-employee/{employeeId}', '\App\Controllers\EmployeeController@editEmployeeForm');
-    $router->post('/update-employee/{employeeId}', 'EmployeeController@updateEmployee');
-    $router->post('/delete-employee/(\d+)', '\App\Controllers\EmployeeController@deleteEmployee');
+    $router->post('/edit-employee/{employeeId}', '\App\Controllers\EmployeeController@updateEmployee');
+
+    $router->post('/delete-employee/{employeeId}', '\App\Controllers\EmployeeController@deleteEmployee');
+
 
 
     // Display the Admin Dashboard (List of Admin employees)

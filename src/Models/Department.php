@@ -20,29 +20,29 @@ class Department extends BaseModel
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
- // Count all departments
- public function countAll()
- {
-     $stmt = $this->db->query("SELECT COUNT(*) FROM Department");
-     return $stmt->fetchColumn();
- }
+    // Count all departments
+    public function countAll()
+    {
+        $stmt = $this->db->query("SELECT COUNT(*) FROM Department");
+        return $stmt->fetchColumn();
+    }
 
- public function getByName($name)
- {
-     $sql = "SELECT * FROM Department WHERE DepartmentName = ?";
-     $stmt = $this->db->prepare($sql);
-     $stmt->execute([$name]);
-     return $stmt->fetch();
- }
- 
- // Method to create a new department
- public function create($data)
- {
-     $sql = "INSERT INTO Department (DepartmentName) VALUES (?)";
-     $stmt = $this->db->prepare($sql);
-     $stmt->execute([$data['DepartmentName']]);
-     return $this->db->lastInsertId(); // Returns the ID of the newly inserted department
- }
+    public function getByName($name)
+    {
+        $sql = "SELECT * FROM Department WHERE DepartmentName = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$name]);
+        return $stmt->fetch();
+    }
+    
+    // Method to create a new department
+    public function create($data)
+    {
+        $sql = "INSERT INTO Department (DepartmentName) VALUES (?)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$data['DepartmentName']]);
+        return $this->db->lastInsertId(); // Returns the ID of the newly inserted department
+    }
 
 
 

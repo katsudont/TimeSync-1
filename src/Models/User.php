@@ -83,7 +83,7 @@ public function getRoleCounts()
     }
 
     public function updateProfile($userId, $name, $email, $username, $birthdate)
-{
+    {
     try {
         $stmt = $this->db->prepare("
             UPDATE Employee e
@@ -106,10 +106,10 @@ public function getRoleCounts()
     }
 
     return false;
-}
+    }
 
 // Custom method to get a user by employee ID
-public function getByEmployeeId($employeeId)
+    public function getByEmployeeId($employeeId)
     {
         $stmt = $this->db->prepare("
             SELECT * FROM User WHERE EmployeeID = :employeeId
@@ -132,4 +132,21 @@ public function getByEmployeeId($employeeId)
             return false;
         }
     }
+    
+    public function updateUser($employeeId, $data)
+    {
+        $query = "
+            UPDATE User
+            SET Username = :Username
+            WHERE EmployeeID = :EmployeeID
+        ";
+    
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([
+            'Username' => $data['Username'],
+            'EmployeeID' => $data['EmployeeID']
+        ]);
+    }
+    
+
 }

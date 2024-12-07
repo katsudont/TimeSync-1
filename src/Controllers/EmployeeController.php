@@ -122,37 +122,46 @@ class EmployeeController extends BaseController
 
    
 
-   // Update employee data
-   public function updateEmployee($employeeId)
+public function updateEmployee($employeeId)
 {
     $employeeModel = new Employee();
     $departmentModel = new Department();
+    $userModel = new User(); // Assuming you have a User model for updating username
 
     // Retrieve POST data
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $birthdate = $_POST['birthdate'];
+    $name = $_POST['Name'];         // Note: Case-sensitive in your form
+    $email = $_POST['Email'];
+    $birthdate = $_POST['Birthdate'];
+    $hireDate = $_POST['HireDate'];
+    $username = $_POST['Username'];
     $departmentId = $_POST['department'];
 
-    // Create an array with updated employee data
-    $data = [
+    // Create an array with updated employee data (excluding HireDate and Username for now)
+    $employeeData = [
         'Name' => $name,
         'Email' => $email,
         'Birthdate' => $birthdate,
+        'HireDate' => $hireDate,   // Include HireDate
         'DepartmentID' => $departmentId
     ];
 
-    // Call the model's updateEmployee method to update the database
-    $employeeModel->updateEmployee($employeeId, $data);
+    // Update employee data in the employee table
+    $employeeModel->updateEmployee($employeeId, $employeeData);
 
-    // Optionally, update user data here (e.g., username, password) if necessary.
+    // If the username is being updated, update it in the User table as well
+    if (!empty($username)) {
+        $userData = [
+            'Username' => $username,
+            'EmployeeID' => $employeeId
+        ];
+        $userModel->updateUser($employeeId, $userData);  // Assuming this method exists in User model
+    }
 
     // Redirect to the employee list page after successful update
     header('Location: /employee');
     exit;
 }
-    // Delete employee
-// Delete employee
+
 public function deleteEmployee($ID)
 {
     $employeeModel = new Employee();  
@@ -169,27 +178,35 @@ public function deleteEmployee($ID)
 
     // Get the user associated with this employee
     $user = $userModel->getByEmployeeId($ID);
-    
+
+    // If a user is associated with the employee, delete it
     if ($user) {
         // Delete the associated user
-        if (!$userModel->delete($user['ID'])) {
-            // Handle deletion error if needed
+        $userDeleted = $userModel->delete($user['ID']);
+        if (!$userDeleted) {
+            // Handle deletion error if user deletion fails
+            $_SESSION['error_message'] = "Error deleting associated user. Employee deletion aborted.";
             header('Location: /employee');
             exit;
         }
     }
 
-    // Finally, delete the employee
-    if ($employeeModel->delete($ID)) {
-        // Redirect with success message if deletion is successful
+    // Now delete the employee
+    $employeeDeleted = $employeeModel->delete($ID);
+
+    if ($employeeDeleted) {
+        // Optionally, you can add a success message or a redirect to the employee list page
+        $_SESSION['success_message'] = "Employee and their associated user were successfully deleted.";
         header('Location: /employee');
         exit;
     } else {
         // Handle failure to delete employee
+        $_SESSION['error_message'] = "Failed to delete the employee.";
         header('Location: /employee');
         exit;
     }
 }
+
 
 
 }
