@@ -64,7 +64,7 @@
 				<div class="page-header">
 					<div class="row">
 						<div class="col-sm-12 mt-5">
-							<h3 class="page-title mt-3">Shift</h3>
+							<h3 class="page-title mt-3">Department List</h3>
 							<a href="/add-department" class="btn btn-primary float-right veiwbutton">Add Department</a>
 						</div>
 					</div>
@@ -76,39 +76,39 @@
 							<div class="card-body">
 								<div class="table-responsive">
 									<!-- Department Table -->
-                    <table id="departmentTable" class="table table-hover table-center">
-                      <thead>
-                        <tr>
-                          <th class="text-nowrap">Department ID</th>
-                          <th class="text-nowrap">Department Name</th>
-                          <th class="text-nowrap">Shift Time In</th>
-                          <th class="text-nowrap">Shift Time Out</th>
-                          <th class="text-nowrap">Shift ID</th>
-                          <th class="text-center">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {{#departments}}
-                          <tr>
-                            <td class="text-nowrap">{{ID}}</td>
-                            <td class="text-nowrap">{{DepartmentName}}</td>
-                            <td class="text-nowrap">{{#Shifts}}{{TimeIn}}<br>{{/Shifts}}</td>
-                            <td class="text-nowrap">{{#Shifts}}{{TimeOut}}<br>{{/Shifts}}</td>
-                            <td class="text-nowrap">{{#Shifts}}{{ID}}<br>{{/Shifts}}</td>
-							<td class="text-center">
-								<a href="/edit-department/{{ID}}" class="action-icon">
-								  <i class="fas fa-pencil-alt m-r-5"></i> Edit
-								</a>
-							  </td>							  
-                          </tr>
-                        {{/departments}}
-                        {{^departments}}
-                          <tr>
-                            <td colspan="6" class="text-center">No departments available.</td>
-                          </tr>
-                        {{/departments}}
-                      </tbody>
-                    </table>
+									<table id="departmentTable" class="table table-hover table-center">
+									<thead>
+										<tr>
+										<th class="text-nowrap">Department ID</th>
+										<th class="text-nowrap">Department Name</th>
+										<th class="text-nowrap">Shift Time In</th>
+										<th class="text-nowrap">Shift Time Out</th>
+										<th class="text-nowrap">Shift ID</th>
+										<th class="text-center">Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										{{#departments}}
+										<tr>
+											<td class="text-nowrap">{{ID}}</td>
+											<td class="text-nowrap">{{DepartmentName}}</td>
+											<td class="text-nowrap">{{#Shifts}}{{TimeIn}}<br>{{/Shifts}}</td>
+											<td class="text-nowrap">{{#Shifts}}{{TimeOut}}<br>{{/Shifts}}</td>
+											<td class="text-nowrap">{{#Shifts}}{{ID}}<br>{{/Shifts}}</td>
+											<td class="text-center">
+												<a href="/edit-department/{{ID}}" class="action-icon">
+												<i class="fas fa-pencil-alt m-r-5"></i> Edit
+												</a>
+											</td>							  
+										</tr>
+										{{/departments}}
+										{{^departments}}
+										<tr>
+											<td colspan="6" class="text-center">No departments available.</td>
+										</tr>
+										{{/departments}}
+									</tbody>
+									</table>
 
 								</div>
 							</div>

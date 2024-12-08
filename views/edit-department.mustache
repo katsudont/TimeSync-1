@@ -5,14 +5,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 	<title>TimeSync</title>
-	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-	<link rel="stylesheet" href="assets/css/feathericon.min.css">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+	<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="/assets/css/feathericon.min.css">
 	<link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
-	<link rel="stylesheet" href="assets/plugins/morris/morris.css">
-	<link rel="stylesheet" href="assets/css/style.css"> </head>
+	<link rel="stylesheet" href="/assets/plugins/morris/morris.css">
+	<link rel="stylesheet" href="/assets/css/style.css"> </head>
 
 <body>
 	<div class="main-wrapper">
@@ -47,7 +47,7 @@
 
 						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
-								<li><a href="/employee">Employees List </a></li>
+								<li><a href="/employee" >Employees List </a></li>
 								<li><a href="/admin">Admins List </a></li>
 							</ul>
 						</li>
@@ -65,38 +65,46 @@
 				<div class="page-header">
 					<div class="row align-items-center">
 						<div class="col">
-							<h3 class="page-title mt-5">Add Admin</h3>
+							<h3 class="page-title mt-5">Edit Department</h3>
 						</div>
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="col-lg-12">
-						<form id="createDepartmentForm" action="/add-department" method="POST">
+						<form action="/edit-department/{{department.ID}}" method="POST">
 							<div class="formtype">
+								<!-- Department ID -->
+								<div class="form-group mb-3">
+									<label for="departmentId">Department ID</label>
+									<input type="text" class="form-control" id="departmentId" name="departmentId" value="{{department.ID}}" required>
+								</div>
+						
 								<!-- Department Name -->
 								<div class="form-group mb-3">
 									<label for="departmentName">Department Name</label>
-									<input type="text" class="form-control" id="departmentName" name="departmentName" placeholder="Enter department name" required>
+									<input type="text" class="form-control" id="departmentName" name="departmentName" value="{{department.DepartmentName}}" required>
 								</div>
-								
+						
 								<!-- Select Shift -->
 								<div class="form-group mb-3">
 									<label for="shiftId">Select Shift</label>
 									<select name="shiftId" id="shiftId" class="form-control" required>
 										<option value="">Select a shift</option>
 										{{#shifts}}
-											<option value="{{ID}}">{{ID}}: {{TimeIn}} - {{TimeOut}}</option>
+											<option value="{{ID}}" {{selected}}>{{ID}}: {{TimeIn}} - {{TimeOut}}</option>
 										{{/shifts}}
-									</select>
+									</select>                                 
 								</div>
-				
+						
 								<!-- Submit Button -->
 								<div class="col-md-12 d-flex justify-content-center">
-									<button type="submit" class="btn btn-primary" id="createDepartmentButton">Create Department</button>
+									<button type="submit" class="btn btn-primary">Update Department</button>
 								</div>
 							</div>
 						</form>
+						
+						
 					</div>
 				</div>
 				
@@ -107,22 +115,13 @@
 		</div>
 	</div>
 
-	<script src="assets/js/jquery-3.5.1.min.js"></script>
-	<script src="assets/js/popper.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
-	<script src="assets/js/moment.min.js"></script>
-	<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
-	<script src="assets/js/script.js"></script>
-
-	<script>
-		$(document).ready(function() {
-			// Bind the "Create Employee" button to submit the form
-			$('#createDepartmentButton').click(function() {
-				$('#createDepartmentForm').submit();
-			});
-		});
-	</script>
+	<script src="/assets/js/jquery-3.5.1.min.js"></script>
+	<script src="/assets/js/popper.min.js"></script>
+	<script src="/assets/js/bootstrap.min.js"></script>
+	<script src="/assets/js/moment.min.js"></script>
+	<script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="/assets/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="/assets/js/script.js"></script>
 </body>
 
 </html>

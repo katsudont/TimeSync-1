@@ -18,7 +18,7 @@ try {
     $router->get('/register', '\App\Controllers\RegisterController@index');
     $router->post('/register', '\App\Controllers\RegisterController@store');
 
-    $router->get('/login', '\App\Controllers\LoginController@login'); // Temporarily for testing
+    $router->get('/login', '\App\Controllers\LoginController@login'); 
     $router->post('/login', '\App\Controllers\LoginController@login');
 
     // Define the route for the dashboard page
@@ -33,16 +33,13 @@ try {
     $router->get('/profile', '\App\Controllers\ProfileController@index');
     $router->post('/profile/update', '\App\Controllers\ProfileController@update');
 
+
     // Route to display employee list or dashboard
     $router->get('/employee', '\App\Controllers\EmployeeController@index');
-    // Route to render the employee creation form (GET request)
     $router->get('/add-employee', '\App\Controllers\EmployeeController@createEmployeeForm');
-    // Route to process adding a new employee (POST request)
     $router->post('/add-employee', '\App\Controllers\EmployeeController@createEmployee');
-
     $router->get('/edit-employee/{employeeId}', '\App\Controllers\EmployeeController@editEmployeeForm');
     $router->post('/edit-employee/{employeeId}', '\App\Controllers\EmployeeController@updateEmployee');
-
     $router->post('/delete-employee/{employeeId}', '\App\Controllers\EmployeeController@deleteEmployee');
 
 
@@ -52,38 +49,35 @@ try {
     $router->get('/add-admin', '\App\Controllers\AdminController@createAdminForm');
     $router->post('/add-admin', '\App\Controllers\AdminController@createAdmin');
 
+    $router->get('/edit-admin/{employeeId}', '\App\Controllers\AdminController@editAdminForm');
+    $router->post('/edit-admin/{employeeId}', '\App\Controllers\AdminController@updateAdmin');
+    $router->post('/delete-admin/{employeeId}', '\App\Controllers\AdminController@deleteAdmin');
+
 
 
     // Route to display departments
     $router->get('/department', '\App\Controllers\DepartmentController@index');
-
-    // Route to show add department form
     $router->get('/add-department', '\App\Controllers\DepartmentController@createDepartmentForm');
-
-    // Route to handle form submission (POST)
     $router->post('/add-department', '\App\Controllers\DepartmentController@addDepartment');
+    $router->get('/edit-department/{departmentId}', '\App\Controllers\DepartmentController@editDepartmentForm');
+    $router->post('/edit-department/{departmentId}', '\App\Controllers\DepartmentController@updateDepartment');
+    $router->post('/delete-department/{departmentId}', '\App\Controllers\DepartmentController@deleteDepartment');
 
-    $router->get('/assign-shift/{departmentId}', '\App\Controllers\DepartmentController@assignShift');
-    $router->post('/assign-shift/{departmentId}', '\App\Controllers\DepartmentController@assignShift');
 
     // Route to show shift list
     $router->get('/shift', '\App\Controllers\ShiftController@index');
-
     // Route to show the add shift form
     $router->get('/add-shift', '\App\Controllers\ShiftController@add');
-
     // Route to handle form submission for adding a new shift (POST)
     $router->post('/add-shift', '\App\Controllers\ShiftController@add');
-
     // Route to show the edit shift form (for a specific shift ID)
     $router->get('/edit-shift/{shiftId}', '\App\Controllers\ShiftController@edit');
-
     // Route to handle form submission for editing an existing shift (POST)
     $router->post('/edit-shift/{shiftId}', '\App\Controllers\ShiftController@edit');
 
+
     // Route to show attendance list
     $router->get('/attendance', '\App\Controllers\AttendanceController@index');
-
     // Route to export attendance to PDF
     $router->get('/attendance/export', '\App\Controllers\AttendanceController@exportToPDF');
 

@@ -86,7 +86,9 @@ ALTER TABLE DepartmentShifts
 ADD CONSTRAINT FK_DepartmentShifts_Department
 FOREIGN KEY (DepartmentID) REFERENCES Department(ID),
 ADD CONSTRAINT FK_DepartmentShifts_Shift
-FOREIGN KEY (ShiftID) REFERENCES Shift(ID);
+FOREIGN KEY (ShiftID) REFERENCES Shift(ID),
+ADD CONSTRAINT unique_department_shift UNIQUE (DepartmentID, ShiftID);
+
 
 INSERT INTO Department (DepartmentName) VALUES
 ('Admin'),

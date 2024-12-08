@@ -82,6 +82,7 @@
 											<th class="text-nowrap">Name</th>
 											<th class="text-nowrap">Email</th>
 											<th class="text-nowrap">Department</th>
+											<th class="text-center">Actions</th>
 										  </tr>
 										</thead>
 										<tbody>
@@ -91,6 +92,12 @@
 											<td class="text-nowrap">{{Name}}</td>
 											<td class="text-nowrap">{{Email}}</td>
 											<td class="text-nowrap">{{DepartmentName}}</td>
+											<td class="text-center">
+												<!-- Link for editing employee, dynamically passing EmployeeID -->
+												<a href="#" class="action-icon">
+													<i class="fas fa-pencil-alt m-r-5"></i> Edit
+												</a>
+											</td>
 										  </tr>
 										  {{/employees}}
 										  {{^employees}}
@@ -102,8 +109,6 @@
 									  </table>
 									  
 									  
-									  
-									  
 								</div>
 							</div>
 						</div>
@@ -112,6 +117,7 @@
 			</div>
 		</div>
 	</div>
+
 	<script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 	<script src="assets/js/jquery-3.5.1.min.js"></script>
 	<script src="assets/js/popper.min.js"></script>

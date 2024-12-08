@@ -9,24 +9,44 @@ use App\Models\User;
 class AdminController extends BaseController
 {
     public function index()
-    {
-        $employeeModel = new Employee();
-        $departmentModel = new Department();
+{
+    // Start session (only once)
+    session_start();
 
-        // Fetch the "Admin" department ID based on the department name
-        $adminDepartment = $departmentModel->getByName('Admin');
-        
-        if ($adminDepartment) {
-            // Fetch employees in the "Admin" department using the department's ID
-            $employees = $employeeModel->getEmployeesByDepartment($adminDepartment['ID']);
-        } else {
-            // If there's no "Admin" department, return an empty list or handle error
-            $employees = [];
-        }
-
-        // Render the view with the employees from the "Admin" department
-        $this->render('admin', ['employees' => $employees]);
+    // Check if the user is logged in
+    if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
+        header('Location: /login');
+        exit;
     }
+
+    // Initialize models
+    $employeeModel = new Employee();
+    $departmentModel = new Department(); // To fetch department data
+
+    // Fetch the "Admin" department ID based on the department name
+    $adminDepartment = $departmentModel->getByName('Admin');
+    
+    // If "Admin" department exists, fetch the employees in that department
+    if ($adminDepartment) {
+        // Fetch employees in the "Admin" department using the department's ID
+        $employees = $employeeModel->getEmployeesByDepartment($adminDepartment['ID']);
+    } else {
+        // If there's no "Admin" department, return an empty list or handle error
+        $employees = [];
+    }
+
+    // Fetch all departments for the dropdown (optional for the admin view)
+    $departmentData = $departmentModel->getAll(); // Fetch all departments
+
+    // Prepare data for the view
+    $data = [
+        'employees' => $employees,
+        'departments' => $departmentData // Pass departments to the view
+    ];
+
+    // Render the admin view with employees and departments
+    return $this->render('admin', $data);
+}
 
     public function createAdminForm()
     {
