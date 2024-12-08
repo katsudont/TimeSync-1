@@ -29,7 +29,7 @@ try {
     $router->get('/employee-dashboard', '\App\Controllers\EmployeeDashboardController@index');
     $router->post('/employee-dashboard/clockIn', '\App\Controllers\EmployeeDashboardController@clockInAction');
     $router->post('/employee-dashboard/clockOut', '\App\Controllers\EmployeeDashboardController@clockOutAction');
-    
+
     $router->get('/profile', '\App\Controllers\ProfileController@index');
     $router->post('/profile/update', '\App\Controllers\ProfileController@update');
 
@@ -74,6 +74,7 @@ try {
     $router->get('/edit-shift/{shiftId}', '\App\Controllers\ShiftController@edit');
     // Route to handle form submission for editing an existing shift (POST)
     $router->post('/edit-shift/{shiftId}', '\App\Controllers\ShiftController@edit');
+    $router->post('/delete-shift/{shiftId}', '\App\Controllers\ShiftController@deleteShift');
 
 
     // Route to show attendance list

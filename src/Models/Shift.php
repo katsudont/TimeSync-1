@@ -63,5 +63,18 @@ public function updateShift($shiftId, $timeIn, $timeOut)
     $stmt->execute([$timeIn, $timeOut, $shiftId]);
 }
 
+public function deleteShift($shiftId)
+{
+    // Prepare the SQL query to delete a shift based on its ID
+    $sql = "DELETE FROM Shift WHERE ID = ?";
+    $stmt = $this->db->prepare($sql);
+
+    // Execute the query with the shift ID as a parameter
+    $stmt->execute([$shiftId]);
+
+    // Check if the shift was successfully deleted by checking the row count
+    return $stmt->rowCount() > 0; // Returns true if the shift was deleted
+}
+
     
 }

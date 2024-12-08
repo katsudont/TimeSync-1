@@ -44,38 +44,68 @@ class ShiftController extends BaseController
         }
 
         // Render the edit form
-        $this->render('editShift', ['shift' => $shift]);
+        $this->render('edit-shift', ['shift' => $shift]);
     }
 
     // Add a new shift
-public function add()
+    public function add()
+    {
+        $shiftModel = new Shift();
+
+        // Check if it's a POST request to add the new shift
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Ensure timeIn and timeOut are set in the form data
+            if (empty($_POST['timeIn']) || empty($_POST['timeOut'])) {
+                echo "Both TimeIn and TimeOut are required.";
+                return;
+            }
+
+            $timeIn = $_POST['timeIn'];  // Get the timeIn from the form
+            $timeOut = $_POST['timeOut']; // Get the timeOut from the form
+
+            // Insert the new shift into the database
+            $shiftModel->create([
+                'TimeIn' => $timeIn,
+                'TimeOut' => $timeOut
+            ]);
+
+            // Redirect back to the shift list after successful creation
+            header('Location: /shift');
+            exit();
+        }
+
+        // Render the add shift form
+        $this->render('add-shift');
+    }
+
+    public function deleteShift($shiftId)
 {
     $shiftModel = new Shift();
 
-    // Check if it's a POST request to add the new shift
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Ensure timeIn and timeOut are set in the form data
-        if (empty($_POST['timeIn']) || empty($_POST['timeOut'])) {
-            echo "Both TimeIn and TimeOut are required.";
-            return;
-        }
+    // Get the shift data using the Shift model
+    $shift = $shiftModel->getById($shiftId);
 
-        $timeIn = $_POST['timeIn'];  // Get the timeIn from the form
-        $timeOut = $_POST['timeOut']; // Get the timeOut from the form
-
-        // Insert the new shift into the database
-        $shiftModel->create([
-            'TimeIn' => $timeIn,
-            'TimeOut' => $timeOut
-        ]);
-
-        // Redirect back to the shift list after successful creation
+    if (!$shift) {
+        // Handle case when shift is not found
+        $_SESSION['error_message'] = "Shift not found.";
         header('Location: /shift');
-        exit();
+        exit;
     }
 
-    // Render the add shift form
-    $this->render('addShift');
+    // Delete the shift
+    $shiftDeleted = $shiftModel->deleteShift($shiftId);
+
+    if ($shiftDeleted) {
+        // Add a success message and redirect to the shift list page
+        $_SESSION['success_message'] = "Shift was successfully deleted.";
+        header('Location: /shift');
+        exit;
+    } else {
+        // Handle failure to delete the shift
+        $_SESSION['error_message'] = "Failed to delete the shift.";
+        header('Location: /shift');
+        exit;
+    }
 }
 
 
