@@ -85,7 +85,7 @@ public function getEmployeeById($id)
 
 public function getAdminById($id)
 {
-    
+
     $query = "
         SELECT e.ID, e.Name, e.Email, e.Birthdate, e.HireDate, u.Username, e.DepartmentID, d.DepartmentName
         FROM Employee e
@@ -103,7 +103,6 @@ public function getAdminById($id)
     // Fetch the result as an associative array
     return $stmt->fetch(\PDO::FETCH_ASSOC);  // Return employee data with HireDate and Username
 }
-
 
 
 
@@ -155,7 +154,7 @@ public function getById($id)
         // Begin transaction
         $this->db->beginTransaction();
 
-        // Delete associated user
+        // Delete associated user by UserID (not EmployeeID)
         $stmtUser = $this->db->prepare("DELETE FROM User WHERE EmployeeID = :id");
         $stmtUser->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmtUser->execute();
@@ -176,6 +175,7 @@ public function getById($id)
         return false;
     }
 }
+
 
 
 }

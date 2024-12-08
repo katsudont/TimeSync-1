@@ -176,6 +176,7 @@ public function deleteEmployee($ID)
 
     if (!$employee) {
         // Handle case when employee is not found
+        $_SESSION['error_message'] = "Employee not found.";
         header('Location: /employee');
         exit;
     }
@@ -210,6 +211,7 @@ public function deleteEmployee($ID)
         exit;
     }
 }
+
 
 
 

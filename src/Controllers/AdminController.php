@@ -191,6 +191,7 @@ public function deleteAdmin($ID)
 
     if (!$employee) {
         // Handle case when employee is not found
+        $_SESSION['error_message'] = "Employee not found.";
         header('Location: /admin');
         exit;
     }
@@ -225,6 +226,5 @@ public function deleteAdmin($ID)
         exit;
     }
 }
-
 
 }

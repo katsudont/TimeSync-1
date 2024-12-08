@@ -108,7 +108,7 @@ public function getRoleCounts()
     return false;
     }
 
-// Custom method to get a user by employee ID
+    // Custom method to get a user by employee ID
     public function getByEmployeeId($employeeId)
     {
         $stmt = $this->db->prepare("
@@ -121,17 +121,34 @@ public function getRoleCounts()
     }
 
     // Delete user by employee ID
-    public function delete($employeeId)
-    {
-        try {
-            $stmt = $this->db->prepare("DELETE FROM User WHERE EmployeeID = :employeeId");
-            $stmt->bindParam(':employeeId', $employeeId, \PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (\PDOException $e) {
-            error_log("Delete failed: " . $e->getMessage());
-            return false;
-        }
+    public function delete($id)
+{
+    try {
+        // Begin transaction
+        $this->db->beginTransaction();
+
+        // Delete associated user by UserID (not EmployeeID)
+        $stmtUser = $this->db->prepare("DELETE FROM User WHERE EmployeeID = :id");
+        $stmtUser->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmtUser->execute();
+
+        // Delete employee
+        $stmtEmployee = $this->db->prepare("DELETE FROM Employee WHERE ID = :id");
+        $stmtEmployee->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmtEmployee->execute();
+
+        // Commit transaction
+        $this->db->commit();
+
+        return true;
+    } catch (\PDOException $e) {
+        // Rollback transaction on failure
+        $this->db->rollBack();
+        error_log("Delete failed: " . $e->getMessage());
+        return false;
     }
+}
+
     
     public function updateUser($employeeId, $data)
     {
