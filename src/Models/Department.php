@@ -78,6 +78,34 @@ public function updateDepartment($departmentId, $data)
     $stmt->execute();
 }
 
+public function delete($id)
+{
+    try {
+        // Start a database transaction
+        $this->db->beginTransaction();
+
+        // First, delete any department-shift associations from the DepartmentShifts table
+        $stmtDepartmentShifts = $this->db->prepare("DELETE FROM DepartmentShifts WHERE DepartmentID = :id");
+        $stmtDepartmentShifts->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmtDepartmentShifts->execute();
+
+        // Then, delete the department itself from the Department table
+        $stmtDepartment = $this->db->prepare("DELETE FROM Department WHERE ID = :id");
+        $stmtDepartment->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmtDepartment->execute();
+
+        // Commit the transaction
+        $this->db->commit();
+
+        return true;
+    } catch (\PDOException $e) {
+        // Rollback the transaction in case of an error
+        $this->db->rollBack();
+        error_log("Delete failed: " . $e->getMessage());
+        return false;
+    }
+}
+
 
 
 }

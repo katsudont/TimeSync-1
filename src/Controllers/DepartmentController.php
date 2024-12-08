@@ -183,5 +183,35 @@ public function updateDepartment($departmentId)
     exit;
 }
 
+public function deleteDepartment($ID)
+{
+    $departmentModel = new Department();
+
+    // Get the department data using the Department model
+    $department = $departmentModel->getById($ID);
+
+    if (!$department) {
+        // Handle case when department is not found
+        $_SESSION['error_message'] = "Department not found.";
+        header('Location: /department');
+        exit;
+    }
+
+    // Delete the department and its associated shifts
+    $departmentDeleted = $departmentModel->delete($ID);
+
+    if ($departmentDeleted) {
+        // Add a success message and redirect to the department list page
+        $_SESSION['success_message'] = "Department and its associated shifts were successfully deleted.";
+        header('Location: /department');
+        exit;
+    } else {
+        // Handle failure to delete the department
+        $_SESSION['error_message'] = "Failed to delete the department.";
+        header('Location: /department');
+        exit;
+    }
+}
+
 
 }
