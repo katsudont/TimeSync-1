@@ -94,7 +94,7 @@
 						  </div>
 						  <div class="col-md-6 mt-3 text-center">
 							<button type="submit" class="btn btn-success">Filter</button>
-							<button type="button" id="refreshBtn" class="btn btn-secondary">Refresh</button>
+							<button type="button" id="refreshBtn" class="btn btn-secondary" onclick="window.location.href='/attendance';">Refresh</button>
 							<a id="exportBtn" class="btn btn-primary" href="#">Export to PDF</a>
 						  </div>
 						</div>
@@ -161,6 +161,28 @@
 	<script src="assets/plugins/morris/morris.min.js"></script>
 	<script src="assets/js/chart.morris.js"></script>
 	<script src="assets/js/script.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			// Handle Export Button Click
+			$('#exportBtn').on('click', function(e) {
+				e.preventDefault(); // Prevent default link behavior
+	
+				// Get current filters from the URL
+				var urlParams = new URLSearchParams(window.location.search);
+				var filters = urlParams.toString(); // Get query string of filters
+	
+				var exportUrl = '/attendance/export'; // The route for exporting
+				if (filters) {
+					// Append filters to the export URL
+					exportUrl += '?' + filters;
+				}
+	
+				// Redirect to the export route
+				window.location.href = exportUrl;
+			});
+		});
+	</script>
 </body>
 
 </html>
