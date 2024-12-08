@@ -99,8 +99,6 @@
                         <label for="name">Name</label>
                         <div class="input-group">
                             <input type="text" id="name" name="name" class="form-control" value="{{profile.Name}}">
-                            <button type="button" class="btn edit-btn ms-2" onclick="enableField('name')">
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -111,8 +109,6 @@
                         <label for="email">Email</label>
                         <div class="input-group">
                             <input type="email" id="email" name="email" class="form-control" value="{{profile.Email}}">
-                            <button type="button" class="btn edit-btn ms-2" onclick="enableField('email')">
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -122,9 +118,7 @@
                     <div class="form-group">
                         <label for="username">Username</label>
                         <div class="input-group">
-                            <input type="text" id="username" name="username" class="form-control" value="{{profile.Username}}">
-                            <button type="button" class="btn edit-btn ms-2" onclick="enableField('username')">
-                            </button>
+                            <input type="text" id="username" name="username" class="form-control" value="{{profile.Username}}" disabled>
                         </div>
                     </div>
                 </div>

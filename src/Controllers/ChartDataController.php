@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\Attendance;
+use App\Models\Employee;
 use App\Models\Department;
 use App\Models\User;
 
@@ -12,17 +12,20 @@ class ChartDataController extends BaseController
         header('Content-Type: application/json');
 
         try {
-            $attendanceModel = new Attendance();
-            $departmentModel = new Department();
-            $userModel = new User();
+                $employeeModel = new Employee();
+                $departmentModel = new Department();
+                $userModel = new User();
 
-            // Fetch employees by department
-            $employeesByDepartment = $departmentModel->getAll();
-            foreach ($employeesByDepartment as &$department) {
-                $department['EmployeeCount'] = count(
-                    $attendanceModel->getFilteredAttendance(['DepartmentName' => $department['DepartmentName']])
-                );
-            }
+                // Fetch all departments
+                $employeesByDepartment = $departmentModel->getAll();
+
+                // Get employee count for each department using the Employee model
+                foreach ($employeesByDepartment as &$department) {
+                    // Get employees in the department and count them
+                    $department['EmployeeCount'] = count(
+                        $employeeModel->getEmployeesByDepartment($department['ID'])
+                    );
+        }
 
             // Role-based employee count (for pie chart)
             $roleCounts = $userModel->getRoleCounts();
