@@ -108,4 +108,123 @@ class AdminController extends BaseController
     exit;
 }
 
+public function editAdminForm($employeeId)
+{
+    $employeeModel = new Employee();
+    $departmentModel = new Department();
+
+    // Get employee details from the database using the correct method
+    $employee = $employeeModel->getAdminById($employeeId);
+
+    // Get all departments for dropdown
+    $departments = $departmentModel->getAll();
+
+    // Check if employee data was found, if not redirect with an error
+    if (!$employee) {
+        // Optionally, flash an error message or log the failed attempt
+        header('Location: /admin');
+        exit;
+    }
+
+    // Add a 'selected' flag to each department based on the employee's current department
+    foreach ($departments as &$department) {
+        $department['selected'] = ($department['ID'] == $employee['DepartmentID']) ? 'selected' : '';
+    }
+
+    // Pass employee and departments data to the view
+    return $this->render('edit-admin', [
+        'username' => $_SESSION['username'] ?? 'Admin', // Set default value
+        'employee' => $employee,
+        'departments' => $departments
+    ]);
+}
+
+   
+
+public function updateAdmin($employeeId)
+{
+    $employeeModel = new Employee();
+    $departmentModel = new Department();
+    $userModel = new User(); // Assuming you have a User model for updating username
+
+    // Retrieve POST data
+    $name = $_POST['Name'];         // Note: Case-sensitive in your form
+    $email = $_POST['Email'];
+    $birthdate = $_POST['Birthdate'];
+    $hireDate = $_POST['HireDate'];
+    $username = $_POST['Username'];
+    $departmentId = $_POST['department'];
+
+    // Create an array with updated employee data (excluding HireDate and Username for now)
+    $employeeData = [
+        'Name' => $name,
+        'Email' => $email,
+        'Birthdate' => $birthdate,
+        'HireDate' => $hireDate,   // Include HireDate
+        'DepartmentID' => $departmentId
+    ];
+
+    // Update employee data in the employee table
+    $employeeModel->updateEmployee($employeeId, $employeeData);
+
+    // If the username is being updated, update it in the User table as well
+    if (!empty($username)) {
+        $userData = [
+            'Username' => $username,
+            'EmployeeID' => $employeeId
+        ];
+        $userModel->updateUser($employeeId, $userData);  // Assuming this method exists in User model
+    }
+
+    // Redirect to the employee list page after successful update
+    header('Location: /admin');
+    exit;
+}
+
+public function deleteAdmin($ID)
+{
+    $employeeModel = new Employee();  
+    $userModel = new User();  
+
+    // Get the employee data using the Employee model
+    $employee = $employeeModel->getById($ID);
+
+    if (!$employee) {
+        // Handle case when employee is not found
+        header('Location: /admin');
+        exit;
+    }
+
+    // Get the user associated with this employee
+    $user = $userModel->getByEmployeeId($ID);
+
+    // If a user is associated with the employee, delete it
+    if ($user) {
+        // Delete the associated user
+        $userDeleted = $userModel->delete($user['ID']);
+        if (!$userDeleted) {
+            // Handle deletion error if user deletion fails
+            $_SESSION['error_message'] = "Error deleting associated user. Employee deletion aborted.";
+            header('Location: /admin');
+            exit;
+        }
+    }
+
+    // Now delete the employee
+    $employeeDeleted = $employeeModel->delete($ID);
+
+    if ($employeeDeleted) {
+        // Optionally, you can add a success message or a redirect to the employee list page
+        $_SESSION['success_message'] = "Employee and their associated user were successfully deleted.";
+        header('Location: /admin');
+        exit;
+    } else {
+        // Handle failure to delete employee
+        $_SESSION['error_message'] = "Failed to delete the employee.";
+        header('Location: /admin');
+        exit;
+    }
+}
+
+
 }

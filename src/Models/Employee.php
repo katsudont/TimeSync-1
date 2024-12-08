@@ -83,6 +83,28 @@ public function getEmployeeById($id)
     return $stmt->fetch(\PDO::FETCH_ASSOC);  // Return employee data with HireDate and Username
 }
 
+public function getAdminById($id)
+{
+    
+    $query = "
+        SELECT e.ID, e.Name, e.Email, e.Birthdate, e.HireDate, u.Username, e.DepartmentID, d.DepartmentName
+        FROM Employee e
+        JOIN Department d ON e.DepartmentID = d.ID
+        LEFT JOIN User u ON e.ID = u.EmployeeID  -- Left Join to get Username
+        WHERE e.ID = :id AND d.DepartmentName = 'Admin'
+    ";
+
+    // Prepare the SQL statement
+    $stmt = $this->db->prepare($query);
+
+    // Execute the query with the employee ID
+    $stmt->execute(['id' => $id]);
+
+    // Fetch the result as an associative array
+    return $stmt->fetch(\PDO::FETCH_ASSOC);  // Return employee data with HireDate and Username
+}
+
+
 
 
 public function updateEmployee($employeeId, $data)
