@@ -9,6 +9,14 @@ class AttendanceController extends BaseController
 {
     public function index()
     {
+        session_start();
+
+        // Check if the user is logged in
+        if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
+        header('Location: /login');
+        exit;
+        }
+
         $attendanceModel = new Attendance();
         
         // Check for filter inputs from the GET request
@@ -25,7 +33,10 @@ class AttendanceController extends BaseController
         $attendanceRecords = $attendanceModel->getFilteredAttendance($filters);
 
         // Render the view with the attendance records
-        $this->render('attendance', ['attendanceRecords' => $attendanceRecords]);
+        $this->render('attendance', [
+            'username' => $_SESSION['username'] ?? 'Admin',
+            'attendanceRecords' => $attendanceRecords
+        ]);
     }
 
    // In AttendanceController.php

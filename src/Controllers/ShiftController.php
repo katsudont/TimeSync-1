@@ -9,18 +9,36 @@ class ShiftController extends BaseController
     // Display the list of shifts
     public function index()
     {
+        session_start();
+
+        // Check if the user is logged in
+        if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
+        header('Location: /login');
+        exit;
+    }
         $shiftModel = new Shift();
 
         // Get all shifts
         $shifts = $shiftModel->getAllShifts();
 
         // Render the shifts table
-        $this->render('shift', ['shifts' => $shifts]);
+        $this->render('shift', [
+            'username' => $_SESSION['username'] ?? 'Admin', // Set default value
+            'shifts' => $shifts
+        ]);
     }
 
     // Edit a shift
     public function edit($shiftId)
     {
+        session_start();
+
+        // Check if the user is logged in
+        if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
+        header('Location: /login');
+        exit;
+        }
+
         $shiftModel = new Shift();
 
         // Get the shift by ID
@@ -44,12 +62,23 @@ class ShiftController extends BaseController
         }
 
         // Render the edit form
-        $this->render('edit-shift', ['shift' => $shift]);
+        $this->render('edit-shift', [
+            'username' => $_SESSION['username'] ?? 'Admin', // Set default value
+            'shift' => $shift
+        ]);
     }
 
     // Add a new shift
     public function add()
     {
+        session_start();
+
+        // Check if the user is logged in
+        if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
+        header('Location: /login');
+        exit;
+        }
+
         $shiftModel = new Shift();
 
         // Check if it's a POST request to add the new shift
@@ -75,7 +104,7 @@ class ShiftController extends BaseController
         }
 
         // Render the add shift form
-        $this->render('add-shift');
+        $this->render('add-shift', ['username' => $_SESSION['username'] ?? 'Admin' ]);
     }
 
     public function deleteShift($shiftId)

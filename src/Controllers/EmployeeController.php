@@ -23,6 +23,7 @@ class EmployeeController extends BaseController
         // Initialize models
         $employeeModel = new Employee();
         $departmentModel = new Department(); // To fetch department data
+        $userModel = new User();
 
         // Fetch employee and department data
         $employeeData = $employeeModel->getEmployeeData();
@@ -30,8 +31,10 @@ class EmployeeController extends BaseController
 
         // Prepare data for the view
         $data = [
+            'username' => $_SESSION['username'] ?? 'Admin', // Set default value
             'employees' => $employeeData,
             'departments' => $departmentData // Pass departments to the view
+            
         ];
 
         return $this->render('employee', $data); // Render employee view with department data
@@ -115,6 +118,7 @@ class EmployeeController extends BaseController
 
     // Pass employee and departments data to the view
     return $this->render('edit-employee', [
+        'username' => $_SESSION['username'] ?? 'Admin', // Set default value
         'employee' => $employee,
         'departments' => $departments
     ]);

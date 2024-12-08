@@ -40,6 +40,7 @@ class AdminController extends BaseController
 
     // Prepare data for the view
     $data = [
+        'username' => $_SESSION['username'] ?? 'Admin', // Set default value
         'employees' => $employees,
         'departments' => $departmentData // Pass departments to the view
     ];

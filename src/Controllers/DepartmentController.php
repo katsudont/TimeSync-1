@@ -4,11 +4,20 @@ namespace App\Controllers;
 
 use App\Models\Department;
 use App\Models\Shift;
+use App\Models\User;
 
 class DepartmentController extends BaseController
 {
     public function index()
     {
+        session_start();
+
+        // Check if the user is logged in
+    if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
+        header('Location: /login');
+        exit;
+    }
+
         $departmentModel = new Department();
         $shiftModel = new Shift();
         
@@ -23,7 +32,10 @@ class DepartmentController extends BaseController
         }
 
         // Render the department list view
-        $this->render('department', ['departments' => $departments]);
+        $this->render('department', [
+            'username' => $_SESSION['username'] ?? 'Admin', // Set default value
+            'departments' => $departments
+        ]);
     }
 
         public function assignShift($departmentId)
@@ -76,7 +88,10 @@ class DepartmentController extends BaseController
         $shifts = $shiftModel->getAllShifts();
 
         // Render the add-department.mustache view and pass the shifts data
-        return $this->render('add-department', ['shifts' => $shifts]);
+        return $this->render('add-department', [
+            'username' => $_SESSION['username'] ?? 'Admin', // Set default value
+            'shifts' => $shifts, 
+        ]);
     }
 
 
@@ -148,6 +163,7 @@ class DepartmentController extends BaseController
 
     // Pass the department and shifts data to the view
     return $this->render('edit-department', [
+        'username' => $_SESSION['username'] ?? 'Admin', // Set default value
         'department' => $department,
         'shifts' => $shifts
     ]);    
