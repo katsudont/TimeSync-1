@@ -32,11 +32,11 @@ public function login($username, $password)
     $stmt->execute(['username' => $username]);
     $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-    // Verify password
+    
     if ($user && password_verify($password, $user['password'])) {
-        return $user; // Return user details if password matches
+        return $user; 
     }
-    return false; // Login failed
+    return false; 
 }
 
 public function getRoleCounts()
@@ -54,7 +54,7 @@ public function getRoleCounts()
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-    // Count admin users
+    
     public function countAdmins()
     {
         $stmt = $this->db->query("
@@ -98,17 +98,17 @@ public function getRoleCounts()
         $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            return $stmt->rowCount(); // Rows affected
+            return $stmt->rowCount(); 
         }
     } catch (\PDOException $e) {
-        error_log("Update failed: " . $e->getMessage()); // Log the error
+        error_log("Update failed: " . $e->getMessage()); 
         return false;
     }
 
     return false;
     }
 
-    // Custom method to get a user by employee ID
+    
     public function getByEmployeeId($employeeId)
     {
         $stmt = $this->db->prepare("
@@ -117,32 +117,32 @@ public function getRoleCounts()
         $stmt->bindParam(':employeeId', $employeeId, \PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch(\PDO::FETCH_ASSOC); // Return user data as associative array
+        return $stmt->fetch(\PDO::FETCH_ASSOC); 
     }
 
-    // Delete user by employee ID
+    
     public function delete($id)
 {
     try {
-        // Begin transaction
+        
         $this->db->beginTransaction();
 
-        // Delete associated user by UserID (not EmployeeID)
+        
         $stmtUser = $this->db->prepare("DELETE FROM User WHERE EmployeeID = :id");
         $stmtUser->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmtUser->execute();
 
-        // Delete employee
+        
         $stmtEmployee = $this->db->prepare("DELETE FROM Employee WHERE ID = :id");
         $stmtEmployee->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmtEmployee->execute();
 
-        // Commit transaction
+        
         $this->db->commit();
 
         return true;
     } catch (\PDOException $e) {
-        // Rollback transaction on failure
+        
         $this->db->rollBack();
         error_log("Delete failed: " . $e->getMessage());
         return false;

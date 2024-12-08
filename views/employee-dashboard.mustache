@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Dashboard - TimeSync</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- DataTables CSS -->
+    
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     <style>
         body {
-            background: #ffffff; /* White background */
+            background: #ffffff; 
             display: flex;
             flex-direction: column;
-            color: #009688; /* Text color set to #009688 */
+            color: #009688; 
         }
         .container {
             margin-top: 30px;
@@ -47,7 +47,7 @@
             background-color: #f44336;
             color: white;
         }
-        /* Styling for the modal text */
+        
         .modal-header, .modal-body, .modal-footer {
             color: #009688;
         }
@@ -55,9 +55,9 @@
             background-color: #ffffff;
         }
 
-        /* Navbar Styling */
+        
         .navbar {
-            background-color: #009688; /* Navbar background color */
+            background-color: #009688; 
             color: white;
         }
 
@@ -80,9 +80,9 @@
             color: #1a604f;
         }
 
-        /* Dropdown Styling */
+        
         .dropdown-menu {
-            background-color: #009688; /* Navbar dropdown background */
+            background-color: #009688; 
             color: white;
         }
 
@@ -94,24 +94,24 @@
             background-color: #006e59;
         }
 
-        /* Light Table Styling */
+        
         .table {
-            background-color: #ffffff; /* White table background */
+            background-color: #ffffff; 
             border-radius: 8px;
         }
 
         .table th {
-            background-color: #009688; /* Table header background */
+            background-color: #009688; 
             color: white;
         }
 
         .table td {
-            background-color: #ffffff; /* White table cell background */
-            color: #009688; /* Dark text for readability */
+            background-color: #ffffff; 
+            color: #009688; 
         }
 
         .table-striped tbody tr:nth-child(odd) {
-            background-color: #f1f1f1; /* Lighter row stripe */
+            background-color: #f1f1f1; 
         }
 
         .pagination {
@@ -201,23 +201,23 @@
         <p>&copy; 2024 TimeSync</p>
     </footer>
 
-    <!-- Bootstrap and Popper.js -->
+   
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- DataTables JS -->
+    
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
-    <!-- Initialize DataTable -->
+    
     <script>
         $(document).ready(function() {
             $('#attendanceTable').DataTable({
-                "paging": true,       // Enable pagination
-                "searching": true,    // Enable search
-                "ordering": true,     // Enable sorting
-                "lengthChange": false // Disable length change (number of rows per page)
+                "paging": true,       
+                "searching": true,   
+                "ordering": true,     
+                "lengthChange": false 
             });
         });
     </script>
@@ -237,7 +237,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <a href="/logout.php" class="btn btn-primary">Logout</a> <!-- Link to logout script -->
+                        <a href="/logout.php" class="btn btn-primary">Logout</a> 
                     </div>
                 </div>
             </div>

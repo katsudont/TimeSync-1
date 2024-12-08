@@ -12,7 +12,7 @@ class DepartmentController extends BaseController
     {
         session_start();
 
-        // Check if the user is logged in
+        
     if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
         header('Location: /login');
         exit;
@@ -21,19 +21,19 @@ class DepartmentController extends BaseController
         $departmentModel = new Department();
         $shiftModel = new Shift();
         
-        // Get all departments
+        
         $departments = $departmentModel->getAll();
 
-        // Get all shifts for each department
+        
         foreach ($departments as &$department) {
-            // Fetch shifts assigned to the department
+            
             $shifts = $shiftModel->getShiftsByDepartment($department['ID']);
             $department['Shifts'] = $shifts;
         }
 
-        // Render the department list view
+        
         $this->render('department', [
-            'username' => $_SESSION['username'] ?? 'Admin', // Set default value
+            'username' => $_SESSION['username'] ?? 'Admin', 
             'departments' => $departments
         ]);
     }
@@ -43,7 +43,7 @@ class DepartmentController extends BaseController
         $departmentModel = new Department();
         $shiftModel = new Shift();
         
-        // Fetch the department by ID
+        
         $department = $departmentModel->getById($departmentId);
         
         if (!$department) {
@@ -51,27 +51,27 @@ class DepartmentController extends BaseController
             return;
         }
 
-        // Fetch all available shifts (not just those assigned to the department)
-        $allShifts = $shiftModel->getAllShifts(); // This will get all shifts, regardless of department
+        
+        $allShifts = $shiftModel->getAllShifts(); 
 
-        // Check if it's a POST request to assign the shift
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $shiftId = $_POST['shiftId'];  // Get the selected shift ID
+            $shiftId = $_POST['shiftId'];  
 
-            // Assign the new shift to the department (this will overwrite the existing one)
+            
             $success = $shiftModel->assignShiftToDepartment($shiftId, $departmentId);
 
             if ($success) {
-                // Redirect to the department list after assigning
+                
                 header('Location: /department');
                 exit();
             } else {
-                // Handle any unexpected errors (though there shouldn't be any)
+                
                 echo "An error occurred while assigning the shift.";
             }
         }
 
-        // Render the assign shift form with department and available shifts
+        
         $this->render('assignShift', [
             'department' => $department,
             'shifts' => $allShifts
@@ -80,16 +80,16 @@ class DepartmentController extends BaseController
 
     public function createDepartmentForm()
     {
-        // Initialize department and shift models to fetch department list and available shifts
+       
         $departmentModel = new Department();
         $shiftModel = new Shift();
 
-        // Fetch all available shifts
+        
         $shifts = $shiftModel->getAllShifts();
 
-        // Render the add-department.mustache view and pass the shifts data
+        
         return $this->render('add-department', [
-            'username' => $_SESSION['username'] ?? 'Admin', // Set default value
+            'username' => $_SESSION['username'] ?? 'Admin', 
             'shifts' => $shifts, 
         ]);
     }
@@ -97,19 +97,19 @@ class DepartmentController extends BaseController
 
     public function addDepartment()
     {
-    // Method to handle adding new departments and assigning a shift
+    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $departmentName = $_POST['departmentName'];
-        $shiftId = $_POST['shiftId']; // Get the selected shift ID from the form
+        $shiftId = $_POST['shiftId']; 
 
-        // Create the department
+        
         $departmentModel = new Department();
         $departmentId = $departmentModel->create([
             'DepartmentName' => $departmentName
         ]);
 
         if ($departmentId) {
-            // If department creation was successful, assign the shift (if provided)
+            
             if (!empty($shiftId)) {
                 $shiftModel = new Shift();
                 $success = $shiftModel->assignShiftToDepartment($shiftId, $departmentId);
@@ -120,7 +120,7 @@ class DepartmentController extends BaseController
                 }
             }
             
-            // Redirect to the departments list after successful creation and shift assignment
+            
             header('Location: /department');
             exit();
         } else {
@@ -128,11 +128,11 @@ class DepartmentController extends BaseController
         }
     }
 
-    // Render the add department form with the available shifts
+    
     $shiftModel = new Shift();
-    $allShifts = $shiftModel->getAllShifts(); // Fetch all available shifts
+    $allShifts = $shiftModel->getAllShifts(); 
     $this->render('addDepartment', [
-        'shifts' => $allShifts // Pass available shifts to the view
+        'shifts' => $allShifts 
     ]);
     }
 
@@ -141,29 +141,29 @@ class DepartmentController extends BaseController
     $departmentModel = new Department();
     $shiftModel = new Shift();
 
-    // Get department details from the database
+    
     $department = $departmentModel->getByIdWithShift($departmentId);
 
-    // Get all available shifts
+    
     $shifts = $shiftModel->getAllShifts();
 
-    // Check if the department exists, if not redirect with an error
+    
     if (!$department) {
-        header('Location: /department');  // Redirect to department list
+        header('Location: /department');  
         exit;
     }
 
-        // Mark the department's current shift as selected
-    $shiftId = $department['ShiftID'] ?? null; // Use null coalescing to avoid undefined index error
+        
+    $shiftId = $department['ShiftID'] ?? null; 
 
     foreach ($shifts as &$shift) {
         $shift['selected'] = ($shift['ID'] == $shiftId) ? 'selected' : '';
     }
 
 
-    // Pass the department and shifts data to the view
+    
     return $this->render('edit-department', [
-        'username' => $_SESSION['username'] ?? 'Admin', // Set default value
+        'username' => $_SESSION['username'] ?? 'Admin', 
         'department' => $department,
         'shifts' => $shifts
     ]);    
@@ -175,26 +175,26 @@ public function updateDepartment($departmentId)
     $departmentModel = new Department();
     $shiftModel = new Shift();
 
-    // Retrieve POST data
+    
     $departmentName = $_POST['departmentName'];
-    $shiftId = $_POST['shiftId']; // Single selected shift ID
+    $shiftId = $_POST['shiftId']; 
 
-    // Ensure the shiftId is not empty and is valid
+    
     if (empty($shiftId)) {
-        // Handle the case where no shift is selected
+        
         echo "Please select a shift.";
         exit;
     }
 
-    // Update department name and associated shift in the Department table
+    
     $departmentData = [
         'DepartmentName' => $departmentName,
-        'ShiftID' => $shiftId // Store the associated shift ID
+        'ShiftID' => $shiftId 
     ];
 
     $departmentModel->updateDepartment($departmentId, $departmentData);
 
-    // Redirect to the department list page after successful update
+    
     header('Location: /department');
     exit;
 }
@@ -203,26 +203,26 @@ public function deleteDepartment($ID)
 {
     $departmentModel = new Department();
 
-    // Get the department data using the Department model
+    
     $department = $departmentModel->getById($ID);
 
     if (!$department) {
-        // Handle case when department is not found
+        
         $_SESSION['error_message'] = "Department not found.";
         header('Location: /department');
         exit;
     }
 
-    // Delete the department and its associated shifts
+    
     $departmentDeleted = $departmentModel->delete($ID);
 
     if ($departmentDeleted) {
-        // Add a success message and redirect to the department list page
+        
         $_SESSION['success_message'] = "Department and its associated shifts were successfully deleted.";
         header('Location: /department');
         exit;
     } else {
-        // Handle failure to delete the department
+        
         $_SESSION['error_message'] = "Failed to delete the department.";
         header('Location: /department');
         exit;

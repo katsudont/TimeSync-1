@@ -29,11 +29,11 @@ class RegisterController extends BaseController
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $departmentId = $_POST['department'];
     
-        // Get the department name for role assignment
+        
         $department = $departmentModel->getById($departmentId);
         $roleId = ($department['DepartmentName'] === 'Admin') ? 1 : 2;
     
-        // Save to Employee table
+        
         $employeeId = $employeeModel->create([
             'Name' => $name,
             'Email' => $email,
@@ -42,7 +42,7 @@ class RegisterController extends BaseController
             'DepartmentID' => $departmentId,
         ]);
     
-        // Save to User table
+        
         $userModel->create([
             'Username' => $username,
             'Password' => $password,
@@ -50,7 +50,7 @@ class RegisterController extends BaseController
             'RoleID' => $roleId,
         ]);
     
-        header('Location: /login'); // Redirect after successful registration
+        header('Location: /login'); 
     }
     
 

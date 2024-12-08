@@ -22,7 +22,7 @@ class Department extends BaseModel
 
     
 
-    // Count all departments
+    
     public function countAll()
     {
         $stmt = $this->db->query("SELECT COUNT(*) FROM Department");
@@ -37,13 +37,13 @@ class Department extends BaseModel
         return $stmt->fetch();
     }
     
-    // Method to create a new department
+    
     public function create($data)
     {
         $sql = "INSERT INTO Department (DepartmentName) VALUES (?)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$data['DepartmentName']]);
-        return $this->db->lastInsertId(); // Returns the ID of the newly inserted department
+        return $this->db->lastInsertId(); 
     }
 
     public function getByIdWithShift($id)
@@ -63,14 +63,14 @@ class Department extends BaseModel
 
 public function updateDepartment($departmentId, $data)
 {
-    // Update the Department Name
+    
     $sql = "UPDATE Department SET DepartmentName = :departmentName WHERE ID = :departmentId";
     $stmt = $this->db->prepare($sql);
     $stmt->bindParam(':departmentName', $data['DepartmentName']);
     $stmt->bindParam(':departmentId', $departmentId);
     $stmt->execute();
 
-    // Now update the DepartmentShifts table (this assumes the relationship is already in the table)
+    
     $sql = "UPDATE DepartmentShifts SET ShiftID = :shiftId WHERE DepartmentID = :departmentId";
     $stmt = $this->db->prepare($sql);
     $stmt->bindParam(':shiftId', $data['ShiftID']);
@@ -81,25 +81,25 @@ public function updateDepartment($departmentId, $data)
 public function delete($id)
 {
     try {
-        // Start a database transaction
+        
         $this->db->beginTransaction();
 
-        // First, delete any department-shift associations from the DepartmentShifts table
+        
         $stmtDepartmentShifts = $this->db->prepare("DELETE FROM DepartmentShifts WHERE DepartmentID = :id");
         $stmtDepartmentShifts->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmtDepartmentShifts->execute();
 
-        // Then, delete the department itself from the Department table
+        
         $stmtDepartment = $this->db->prepare("DELETE FROM Department WHERE ID = :id");
         $stmtDepartment->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmtDepartment->execute();
 
-        // Commit the transaction
+        
         $this->db->commit();
 
         return true;
     } catch (\PDOException $e) {
-        // Rollback the transaction in case of an error
+        
         $this->db->rollBack();
         error_log("Delete failed: " . $e->getMessage());
         return false;

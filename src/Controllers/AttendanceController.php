@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Attendance;
-use FPDF; // Import the FPDF class
+use FPDF; 
 
 class AttendanceController extends BaseController
 {
@@ -11,7 +11,7 @@ class AttendanceController extends BaseController
     {
         session_start();
 
-        // Check if the user is logged in
+
         if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
         header('Location: /login');
         exit;
@@ -19,7 +19,7 @@ class AttendanceController extends BaseController
 
         $attendanceModel = new Attendance();
         
-        // Check for filter inputs from the GET request
+
         $filters = [
             'EmployeeID' => $_GET['EmployeeID'] ?? null,
             'EmployeeName' => $_GET['EmployeeName'] ?? null,
@@ -29,22 +29,22 @@ class AttendanceController extends BaseController
             'OutStatus' => $_GET['OutStatus'] ?? null
         ];
 
-        // Get filtered records from the model
+
         $attendanceRecords = $attendanceModel->getFilteredAttendance($filters);
 
-        // Render the view with the attendance records
+
         $this->render('attendance', [
             'username' => $_SESSION['username'] ?? 'Admin',
             'attendanceRecords' => $attendanceRecords
         ]);
     }
 
-   // In AttendanceController.php
+
 public function exportToPDF()
 {
     $attendanceModel = new Attendance();
 
-    // Collect filters from the GET request (if any)
+
     $filters = [
         'EmployeeID' => $_GET['EmployeeID'] ?? null,
         'EmployeeName' => $_GET['EmployeeName'] ?? null,
@@ -54,10 +54,10 @@ public function exportToPDF()
         'OutStatus' => $_GET['OutStatus'] ?? null,
     ];
 
-    // Fetch filtered or unfiltered records
+
     $attendanceRecords = $attendanceModel->getFilteredAttendance($filters);
 
-    // Initialize PDF
+
     $pdf = new FPDF('L', 'mm', 'A4');
     $pdf->AddPage();
     $pdf->SetFont('Arial', 'B', 14);
@@ -65,7 +65,7 @@ public function exportToPDF()
     $pdf->Ln(10);
     $pdf->SetFont('Arial', 'B', 10);
 
-    // Table header
+    
     $pdf->Cell(25, 10, 'Employee ID', 1, 0, 'C');
     $pdf->Cell(45, 10, 'Employee Name', 1, 0, 'C');
     $pdf->Cell(30, 10, 'Department', 1, 0, 'C');
@@ -77,7 +77,7 @@ public function exportToPDF()
 
     $pdf->SetFont('Arial', '', 10);
 
-    // Table rows
+   
     foreach ($attendanceRecords as $record) {
         $pdf->Cell(25, 10, $record['EmployeeID'], 1, 0, 'C');
         $pdf->Cell(45, 10, $record['EmployeeName'], 1, 0, 'C');
@@ -89,7 +89,7 @@ public function exportToPDF()
         $pdf->Cell(30, 10, $record['ShiftID'], 1, 1, 'C');
     }
 
-    // Output the PDF
+    
     $pdf->Output('D', 'attendance_record.pdf');
 }
 

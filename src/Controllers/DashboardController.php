@@ -14,13 +14,13 @@ class DashboardController extends BaseController
 
         session_start();
         
-        // Initialize models
+        
         $attendanceModel = new Attendance();
         $employeeModel = new Employee();
         $departmentModel = new Department();
         $userModel = new User();
 
-        // Fetch data
+        
         $recentAttendance = $attendanceModel->getLatestAttendance();
         $presentCount = $attendanceModel->countPresent();
         $lateCount = $attendanceModel->countLate();
@@ -34,10 +34,10 @@ class DashboardController extends BaseController
             exit;
         }
 
-        // Render the dashboard
+        
 
         $data = [
-            'username' => $_SESSION['username'] ?? 'Admin', // Set default value
+            'username' => $_SESSION['username'] ?? 'Admin', 
             'recentAttendance' => $recentAttendance,
             'presentCount' => $presentCount,
             'lateCount' => $lateCount,

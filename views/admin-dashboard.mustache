@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 	<title>TimeSync</title>
-	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.png">
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
@@ -64,7 +64,7 @@
 		</div>
 		<div class="page-wrapper">
 			<div class="content container-fluid">
-				<!-- Page Header -->
+				
 				<div class="page-header">
 					<div class="row">
 						<div class="col-sm-12 mt-5">
@@ -172,7 +172,7 @@
 					</div>
 				</div>
 		
-				<!-- Attendance Table Row -->
+				
 				<div class="row">
 					<div class="col-12">
 						<div class="card card-table">
@@ -241,11 +241,13 @@
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-										<a href="/logout.php" class="btn btn-primary">Logout</a> <!-- Link to logout script -->
+										<a href="/logout.php" class="btn btn-primary">Logout</a> 
 									</div>
 								</div>
 							</div>
 						</div>
+
+
 	<script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 	<script src="assets/js/jquery-3.5.1.min.js"></script>
 	<script src="assets/js/popper.min.js"></script>
@@ -258,18 +260,18 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script>
-		// Fetch chart data from the backend
+		
 		fetch('/chart-data')
 		.then(response => response.json())
 		.then(data => {
-			// Prepare Donut Chart Data
+			
 			const departmentNames = data.employeesByDepartment.map(dept => dept.DepartmentName);
 			const employeeCounts = data.employeesByDepartment.map(dept => dept.EmployeeCount);
 	
-			// Render Donut Chart
+			
 			const donutCtx = document.getElementById('donut-chart').getContext('2d');
 			
-			// Adjust the size of the donut chart here
+			
 			const donutChart = new Chart(donutCtx, {
 				type: 'doughnut',
 				data: {
@@ -283,22 +285,22 @@
 				},
 				options: {
 					responsive: true,
-					maintainAspectRatio: false, // Allow resizing the chart independently
+					maintainAspectRatio: false,
 					plugins: {
 						legend: { position: 'top' },
 					},
-					aspectRatio: 1, // Optional: set a specific aspect ratio for the chart (optional)
+					aspectRatio: 1, 
 				}
 			});
 	
-			// Prepare Pie Chart Data (Role-based Distribution)
+			
 			const roleLabels = ['Admin', 'Employee'];
 			const roleCounts = [data.roleCounts.Admin, data.roleCounts.Employee];
 	
-			// Render Pie Chart
+			
 			const pieCtx = document.getElementById('pie-chart-roles').getContext('2d');
 	
-			// Adjust the size of the pie chart here
+			
 			const pieChart = new Chart(pieCtx, {
 				type: 'pie',
 				data: {
@@ -310,11 +312,11 @@
 				},
 				options: {
 					responsive: true,
-					maintainAspectRatio: false, // Allow resizing the chart independently
+					maintainAspectRatio: false, 
 					plugins: {
 						legend: { position: 'top' },
 					},
-					aspectRatio: 1, // Optional: set a specific aspect ratio for the chart (optional)
+					aspectRatio: 1,
 				}
 			});
 		})

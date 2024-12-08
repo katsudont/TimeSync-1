@@ -19,18 +19,18 @@ class ChartDataController extends BaseController
                 // Fetch all departments
                 $employeesByDepartment = $departmentModel->getAll();
 
-                // Get employee count for each department using the Employee model
+                
                 foreach ($employeesByDepartment as &$department) {
-                    // Get employees in the department and count them
+                    
                     $department['EmployeeCount'] = count(
                         $employeeModel->getEmployeesByDepartment($department['ID'])
                     );
         }
 
-            // Role-based employee count (for pie chart)
+            
             $roleCounts = $userModel->getRoleCounts();
 
-            // Output as JSON
+            
             echo json_encode([
                 'employeesByDepartment' => $employeesByDepartment,
                 'roleCounts' => [

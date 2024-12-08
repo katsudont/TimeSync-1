@@ -8,24 +8,24 @@ class ProfileController extends BaseController
 {
     public function index()
     {
-        // Start session (only once)
+        
         session_start();
 
-        // Check if the user is logged in
+        
         if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
             header('Location: /login');
             exit;
         }
 
-        // Initialize the User model
+        
         $userModel = new User();
 
-        // Fetch user profile data
+        
         $profileData = $userModel->getProfileData($_SESSION['user_id']);
 
-        // Prepare data for the view
+        
         $data = [
-            'username' => $_SESSION['username'] ?? 'User', // Default username
+            'username' => $_SESSION['username'] ?? 'User', 
             'profile' => $profileData
         ];
 
@@ -48,15 +48,15 @@ class ProfileController extends BaseController
         $username = $_POST['username'] ?? '';
         $birthdate = $_POST['birthdate'] ?? '';
 
-        error_log("Updating profile for user ID: $userId with Name: $name, Email: $email"); // Debug log
+        error_log("Updating profile for user ID: $userId with Name: $name, Email: $email"); 
 
         $userModel = new User();
         $result = $userModel->updateProfile($userId, $name, $email, $username, $birthdate);
 
         if ($result) {
-            error_log("Profile updated successfully."); // Debug success
+            error_log("Profile updated successfully."); 
         } else {
-            error_log("Failed to update profile."); // Debug failure
+            error_log("Failed to update profile."); 
         }
 
         header('Location: /profile');

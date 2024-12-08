@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 	<title>TimeSync</title>
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/img/logo.png">
 	<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
 	<link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
@@ -78,19 +78,19 @@
 					<div class="col-lg-12">
 						<form action="/edit-department/{{department.ID}}" method="POST">
 							<div class="formtype">
-								<!-- Department ID -->
+								
 								<div class="form-group mb-3">
 									<label for="departmentId">Department ID</label>
 									<input type="text" class="form-control" id="departmentId" name="departmentId" value="{{department.ID}}" readonly>
 								</div>
 						
-								<!-- Department Name -->
+								
 								<div class="form-group mb-3">
 									<label for="departmentName">Department Name</label>
 									<input type="text" class="form-control" id="departmentName" name="departmentName" value="{{department.DepartmentName}}" required>
 								</div>
 						
-								<!-- Select Shift -->
+								
 								<div class="form-group mb-3">
 									<label for="shiftId">Select Shift</label>
 									<select name="shiftId" id="shiftId" class="form-control" required>
@@ -102,7 +102,7 @@
 								</div>
 						
 								<div class="form-buttons row">
-									<!-- Submit Button -->
+									
 									<div class="col-md-12 d-flex justify-content-center">
 										<button type="submit" class="btn btn-primary">Update Department</button>
 									</div>
@@ -130,7 +130,7 @@
 	</div>
 
 
-			<!-- Modal for Deleting Department -->
+			
 			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -144,10 +144,10 @@
 							Are you sure you want to delete this department?
 						</div>
 						<div class="modal-footer">
-							<!-- Cancel Button -->
+							
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 
-							<!-- Confirm Delete Button -->
+							
 							<form method="POST" action="/delete-department/{{department.ID}}">
 								<button type="submit" class="btn btn-danger">Yes, Delete</button>
 							</form>
@@ -171,7 +171,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-									<a href="/logout.php" class="btn btn-primary">Logout</a> <!-- Link to logout script -->
+									<a href="/logout.php" class="btn btn-primary">Logout</a> 
 								</div>
 							</div>
 						</div>

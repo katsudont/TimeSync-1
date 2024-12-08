@@ -6,7 +6,7 @@ use App\Models\BaseModel;
 
 class Attendance extends BaseModel
 {
-    // Fetch the latest 5 attendance records
+    
     public function getLatestAttendance($limit = 5)
     {
         $stmt = $this->db->prepare("
@@ -47,7 +47,7 @@ class Attendance extends BaseModel
         ORDER BY a.InTime DESC
     ");
     $stmt->execute();
-    return $stmt->fetchAll(\PDO::FETCH_ASSOC); // Return all attendance records
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC); 
 }
 
 public function getFilteredAttendance($filters)
@@ -61,7 +61,7 @@ public function getFilteredAttendance($filters)
         WHERE 1=1
     ";
 
-    // Add filtering conditions dynamically
+    
     if (!empty($filters['EmployeeID'])) {
         $query .= " AND a.EmployeeID = :EmployeeID";
     }
@@ -108,7 +108,7 @@ public function getFilteredAttendance($filters)
 
 
 
-    // Count present employees
+    
     public function countPresent()
     {
         $stmt = $this->db->prepare("
@@ -120,7 +120,7 @@ public function getFilteredAttendance($filters)
         return $stmt->fetchColumn();
     }
 
-    // Count late employees
+   
     public function countLate()
     {
         $stmt = $this->db->prepare("
@@ -134,7 +134,7 @@ public function getFilteredAttendance($filters)
 
     public function getAllAttendanceByEmployee($employeeId)
     {
-        // Fetch all attendance records for the given employee, ordered by InTime (descending)
+        
         $stmt = $this->db->prepare("
             SELECT shiftID, InTime, InStatus, OutTime, OutStatus 
             FROM Attendance 
@@ -144,14 +144,14 @@ public function getFilteredAttendance($filters)
         $stmt->bindParam(':employeeId', $employeeId);
         $stmt->execute();
     
-        // Return the results as an associative array
+        
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
     
 
 public function recordTimeIn($employeeId)
 {
-    // Fetch the employee's department ID and the shift they are assigned to
+    
     $stmt = $this->db->prepare("
         SELECT e.DepartmentID, ds.ShiftID, s.TimeIn 
         FROM Employee e
@@ -193,7 +193,7 @@ public function recordTimeIn($employeeId)
 
 public function recordTimeOut($employeeId)
 {
-    // Fetch the employee's department ID and the shift they are assigned to
+    
     $stmt = $this->db->prepare("
         SELECT e.DepartmentID, ds.ShiftID, s.TimeOut 
         FROM Employee e

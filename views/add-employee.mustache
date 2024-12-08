@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 	<title>TimeSync</title>
-	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.png">
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
@@ -78,7 +78,7 @@
 					<div class="col-lg-12">
 						<form id="createEmployeeForm" action="/add-employee" method="POST">
 							<div class="row formtype">
-								<!-- First Column -->
+								
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="name">Full Name</label>
@@ -125,7 +125,7 @@
 									</div>
 								</div>
 						
-								 <!-- Centered Button -->
+								 
 								<div class="col-md-12 d-flex justify-content-center">
 									<div class="form-group">
 										<button type="button" class="btn btn-primary" id="createEmployeeButton">Create Employee</button>
@@ -155,7 +155,7 @@
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-											<a href="/logout.php" class="btn btn-primary">Logout</a> <!-- Link to logout script -->
+											<a href="/logout.php" class="btn btn-primary">Logout</a> 
 										</div>
 									</div>
 								</div>
@@ -171,7 +171,7 @@
 
 	<script>
 		$(document).ready(function() {
-			// Bind the "Create Employee" button to submit the form
+			
 			$('#createEmployeeButton').click(function() {
 				$('#createEmployeeForm').submit();
 			});
