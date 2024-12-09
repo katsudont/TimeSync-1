@@ -53,8 +53,8 @@ public function countAll()
  public function getEmployeesByDepartment($departmentId)
  {
      $sql = "SELECT e.ID, e.Name, e.Email, d.DepartmentName 
-             FROM employee e 
-             INNER JOIN department d ON e.DepartmentID = d.ID 
+             FROM Employee e 
+             INNER JOIN Department d ON e.DepartmentID = d.ID 
              WHERE e.DepartmentID = ?";
      $stmt = $this->db->prepare($sql);
      $stmt->execute([$departmentId]);
