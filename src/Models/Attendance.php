@@ -165,25 +165,25 @@ public function getFilteredAttendance($filters)
     if ($shiftData) {
         $departmentID = $shiftData['DepartmentID'];
         $shiftID = $shiftData['ShiftID'];
-        $scheduledTimeIn = $shiftData['TimeIn']; // The scheduled start time of the shift
+        $scheduledTimeIn = $shiftData['TimeIn']; 
 
-        // Get current time
-        $currentTime = new \DateTime(); // Use DateTime for comparison
+        
+        $currentTime = new \DateTime(); 
         $scheduledTime = new \DateTime($scheduledTimeIn);
 
-        // Calculate the difference in minutes
+        
         $interval = $currentTime->diff($scheduledTime);
-        $minutesLate = $interval->i + ($interval->h * 60); // Total minutes late
+        $minutesLate = $interval->i + ($interval->h * 60); 
 
         if ($minutesLate > 60) {
-            $inStatus = 'Absent'; // More than 60 minutes late
+            $inStatus = 'Absent'; 
         } elseif ($minutesLate > 10) {
-            $inStatus = 'Late'; // Between 10 and 60 minutes late
+            $inStatus = 'Late'; 
         } else {
-            $inStatus = 'On Time'; // On time (within 10 minutes)
+            $inStatus = 'On Time'; 
         }
 
-        // Record the clock-in time
+       
         $stmt = $this->db->prepare("
             INSERT INTO Attendance (EmployeeID, DepartmentID, ShiftID, InTime, InStatus)
             VALUES (:employeeId, :departmentID, :shiftID, NOW(), :inStatus)
@@ -212,23 +212,23 @@ public function recordTimeOut($employeeId)
     if ($shiftData) {
         $departmentID = $shiftData['DepartmentID'];
         $shiftID = $shiftData['ShiftID'];
-        $scheduledTimeOut = $shiftData['TimeOut']; // The scheduled end time of the shift
+        $scheduledTimeOut = $shiftData['TimeOut']; 
 
-        // Get current time
-        $currentTime = new \DateTime(); // Current date and time
-        $scheduledTime = new \DateTime($scheduledTimeOut); // Scheduled time-out
+        
+        $currentTime = new \DateTime(); 
+        $scheduledTime = new \DateTime($scheduledTimeOut); 
 
-        // Calculate the difference in minutes
-        $interval = $currentTime->diff($scheduledTime); // Difference between current and scheduled times
-        $minutesLate = $interval->i + ($interval->h * 60); // Convert hours to minutes and add the minutes difference
+        
+        $interval = $currentTime->diff($scheduledTime); 
+        $minutesLate = $interval->i + ($interval->h * 60); 
 
         if ($minutesLate > 15) {
-            $outStatus = 'Overtime'; // More than 15 minutes late
+            $outStatus = 'Overtime'; 
         } else {
-            $outStatus = 'Completed'; // Within 15 minutes grace period
+            $outStatus = 'Completed'; 
         }
 
-        // Update the clock-out time and status for the specific employee and today's date
+
         $stmt = $this->db->prepare("
             UPDATE Attendance 
             SET OutTime = NOW(), OutStatus = :outStatus 

@@ -82,31 +82,31 @@ public function getRoleCounts()
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function updateProfile($userId, $name, $email, $username, $birthdate)
+    public function updateProfile($userId, $name, $email, $birthdate)
     {
-    try {
-        $stmt = $this->db->prepare("
-            UPDATE Employee e
-            JOIN User u ON e.ID = u.EmployeeID
-            SET e.Name = :name, e.Email = :email, u.Username = :username, e.Birthdate = :birthdate
-            WHERE u.ID = :userId
-        ");
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':birthdate', $birthdate);
-        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            return $stmt->rowCount(); 
+        try {
+            $stmt = $this->db->prepare("
+                UPDATE Employee e
+                JOIN User u ON e.ID = u.EmployeeID
+                SET e.Name = :name, e.Email = :email, e.Birthdate = :birthdate
+                WHERE u.ID = :userId
+            ");
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':birthdate', $birthdate);
+            $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    
+            if ($stmt->execute()) {
+                return $stmt->rowCount(); 
+            }
+        } catch (\PDOException $e) {
+            error_log("Update failed: " . $e->getMessage()); 
+            return false;
         }
-    } catch (\PDOException $e) {
-        error_log("Update failed: " . $e->getMessage()); 
+    
         return false;
     }
-
-    return false;
-    }
+    
 
     
     public function getByEmployeeId($employeeId)
